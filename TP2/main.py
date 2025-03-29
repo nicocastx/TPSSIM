@@ -5,9 +5,9 @@ from tkinter import ttk
 #todo : normal interfaz -- Leisa
 #todo : exponencial logica -- Caillou
 #todo : normal logica -- Jere
-#todo : completar la tabla -- Simon
+#todo : completar la tabla -- Simon (revisar si la logica esta bien)
 #todo : revisar logica truncate ultimo intervalo -- ale archivo uniforme linea 40 !IMPORTANT
-#todo : revisar completar grafico uniforme -- Nico
+#todo : revisar completar grafico uniforme -- Nico (verificar distribucion)
 #todo : distribuir valores entre los intervalos -- Kevin
 #todo : Abstraer utilidades -- Kevin
 
