@@ -4,68 +4,52 @@ import tkinter as tk
 from tkinter import ttk
 import matplotlib.pyplot as plt
 
+from TP2.utilidades.logicaDistribuciones import logicaDistribuciones
+
 
 class Tabla(tk.Toplevel):
     def __init__(self, root):
+        self.logicaDistr = logicaDistribuciones()
         self.serie = []
+
         super().__init__(root)
-        print(root.campos[0], root.campos[1])
+        numIntervalos = int(root.campos[1])
+        nMuestras = int(root.campos[0])
+
+
         self.title("Tabla de resultados")
         self.geometry("500x300")
 
         #calcular la serie
-        for i in range(int(root.campos[0])):
-            rnd = random.random().__round__(4)
+        for i in range(nMuestras):
+            rnd = random.random() * 0.9999
             self.serie.append(rnd)
 
-
-        #aplicarformula()
-        a = self.truncar(min(self.serie))
-        b = self.truncar(max(self.serie))
-        print("minimo: " + str(a))
-        print("maximo: "+str(b))
-
-        numIntervalos = int(root.campos[1])  # número de intervalos
-
-        # calcular el tamaño de cada intervalo
-        anchoIntervalo = self.truncar((b - a) / numIntervalos)
-        print("ancho de intervalo: " + str(anchoIntervalo))
-
-        intervalos = []
-
-        for i in range(numIntervalos):
-            inicio = self.truncar(a)
-            fin = self.truncar(a + anchoIntervalo)
-
-            if i == numIntervalos - 1:
-                intervalos.append((a, b))
-                continue
-
-            intervalos.append((inicio, fin))
-            a = fin
-        print("cantidad de intervalos: " + str(len(intervalos)))
+        intervalos = self.logicaDistr.generarIntervalos(self.serie, numIntervalos)
 
         print(intervalos)
 
-        # Crear tabla
+        contadores_intervalos = self.logicaDistr.contadorIntervalos(self.serie, intervalos)
+
+        print("contadores_intervalos: " + str(contadores_intervalos))
+
+        # Crear la tabla
         self.tabla = ttk.Treeview(self)
-        self.tabla['columns'] = ('Intervalos', 'columna 2', 'Columna 3')
+        self.tabla['columns'] = ('Intervalos', 'Frecuencia')
 
         # Formato de la tabla
         self.tabla.column("#0", width=0, stretch=tk.NO)
         self.tabla.column("Intervalos", anchor=tk.W, width=100)
-        self.tabla.column("columna 2", anchor=tk.W, width=100)
-        self.tabla.column("Columna 3", anchor=tk.W, width=100)
+        self.tabla.column("Frecuencia", anchor=tk.W, width=100)
 
         # Encabezados de la tabla
         self.tabla.heading("#0", text="", anchor=tk.W)
         self.tabla.heading("Intervalos", text="Intervalos", anchor=tk.W)
-        self.tabla.heading("columna 2", text="columna 2", anchor=tk.W)
-        self.tabla.heading("Columna 3", text="Columna 3", anchor=tk.W)
+        self.tabla.heading("Frecuencia", text="Frecuencia", anchor=tk.W)
 
-        # Agregar datos a la tabla (por ejemplo, puedes agregar datos aquí)
-        for i in range(10):
-            self.tabla.insert('', 'end', values=(f'Dato {i}', f'Dato {i+1}', f'Dato {i+2}'))
+        # Agregar datos a la tabla
+        for i, intervalo in enumerate(intervalos):
+            self.tabla.insert('', 'end', values=(f"{intervalo[0]} - {intervalo[1]}", contadores_intervalos[i]))
 
         # Botón para copiar todos los valores
         self.boton_copiar = tk.Button(self, text="Copiar todos los valores", command=self.copiar_valores)
@@ -73,7 +57,6 @@ class Tabla(tk.Toplevel):
 
         # Agregar tabla a la ventana
         self.tabla.pack()
-
 
     def copiar_valores(self):
         # Obtener la lista de ítems de la tabla
@@ -99,14 +82,8 @@ class Tabla(tk.Toplevel):
         self.clipboard_clear()
         self.clipboard_append(csv_data)
 
-        self.mostrar_histograma(self.serie, int(self.campos[1]))
-
         # Imprimir un mensaje para confirmar que los valores han sido copiados
         print("Valores copiados")
 
-    def truncar(self, numero):
-        factor = 10 ** 4
-        numero_escalado = numero * factor
-        numero_truncado_escalado = math.trunc(numero_escalado)
-        return numero_truncado_escalado / factor
+
 
