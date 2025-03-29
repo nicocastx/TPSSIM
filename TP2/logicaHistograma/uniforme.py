@@ -1,3 +1,4 @@
+import math
 import random
 import tkinter as tk
 from tkinter import ttk
@@ -14,32 +15,37 @@ class Tabla(tk.Toplevel):
 
         #calcular la serie
         for i in range(int(root.campos[0])):
-            rnd = random.random()
+            rnd = random.random().__round__(4)
             self.serie.append(rnd)
 
+
+        #aplicarformula()
         a = self.truncar(min(self.serie))
         b = self.truncar(max(self.serie))
-        print(a)
-        print(b)
+        print("minimo: " + str(a))
+        print("maximo: "+str(b))
 
         numIntervalos = int(root.campos[1])  # número de intervalos
 
         # calcular el tamaño de cada intervalo
-        anchoIntervalo = (b - a) / numIntervalos
-        print(anchoIntervalo)
+        anchoIntervalo = self.truncar((b - a) / numIntervalos)
+        print("ancho de intervalo: " + str(anchoIntervalo))
 
         intervalos = []
 
         for i in range(numIntervalos):
             inicio = self.truncar(a)
             fin = self.truncar(a + anchoIntervalo)
+
+            if i == numIntervalos - 1:
+                intervalos.append((a, b))
+                continue
+
             intervalos.append((inicio, fin))
             a = fin
         print("cantidad de intervalos: " + str(len(intervalos)))
 
         print(intervalos)
-
-
 
         # Crear tabla
         self.tabla = ttk.Treeview(self)
@@ -98,9 +104,9 @@ class Tabla(tk.Toplevel):
         # Imprimir un mensaje para confirmar que los valores han sido copiados
         print("Valores copiados")
 
-    def truncar(num):
-        truncado = round(num, 4)
-        if truncado == 16:
-            return 2
-        else:
-            return int(truncado * 10000) / 10000
+    def truncar(self, numero):
+        factor = 10 ** 4
+        numero_escalado = numero * factor
+        numero_truncado_escalado = math.trunc(numero_escalado)
+        return numero_truncado_escalado / factor
+
