@@ -44,7 +44,7 @@ class logicaDistribuciones():
             fin = self.truncar(a + anchoIntervalo)
 
             if i == numIntervalos - 1:
-                intervalos.append((a, b))
+                intervalos.append((inicio, b))
                 continue
 
             intervalos.append((inicio, fin))
