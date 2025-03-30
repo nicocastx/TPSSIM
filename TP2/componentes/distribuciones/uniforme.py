@@ -1,5 +1,6 @@
 # uniforme.py
 import tkinter as tk
+from tkinter import messagebox
 
 from TP2.logicaHistograma.uniforme import Tabla
 
@@ -30,11 +31,26 @@ class Uniforme(tk.Toplevel):
         self.boton.pack()
 
     def operar(self):
-        self.campos.append(self.nval.get())
-        self.campos.append(self.opcionIntervalo.get())
-        # aquí puedes agregar la lógica para operar con los campos
-        n = self.nval.get()
+        n_str = self.nval.get().strip()  # Eliminar espacios en blanco
         opcionIntervalo = self.opcionIntervalo.get()
-        print(f"n: {n}, opción: {opcionIntervalo}")
+
+        # Validar que n sea un número entero
+        if not n_str.isdigit():
+            messagebox.showerror("Error", "Debe ingresar un número entero positivo.")
+            return  # Sale de la función sin continuar
+
+        n = int(n_str)
+
+        # Validar que esté dentro del rango permitido
+        if n <= 0 or n > 1000000:
+            messagebox.showerror("Error", "El número debe estar entre 1 y 1.000.000.")
+            return
+
+        print(f"✅ Número válido: {n}, opción de intervalos: {opcionIntervalo}")
+
+        # Si `n` es válido, almacenarlo y ejecutar la simulación
+        self.campos.append(n)
+        self.campos.append(opcionIntervalo)
+
         tabla = Tabla(self)
         tabla.mainloop()

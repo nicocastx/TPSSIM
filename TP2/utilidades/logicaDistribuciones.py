@@ -33,23 +33,28 @@ class logicaDistribuciones():
         print("minimo: " + str(a))
         print("maximo: " + str(b))  # número de intervalos
 
-        # calcular el tamaño de cada intervalo
-        anchoIntervalo = self.truncar((b - a) / numIntervalos)
-        print("ancho de intervalo: " + str(anchoIntervalo))
+
+        # calcular el tamaño de cada intervalo -------------- CON PRECISION
+        precision = 0.0001 # Va depender de la cantidad de decimales
+        anchoIntervalo =((b - a) / numIntervalos)
+        anchoIntervaloPrecisionTruncado = self.truncar((anchoIntervalo) + precision)
+        print("Ancho de intervalo: " + str(anchoIntervaloPrecisionTruncado))
 
         intervalos = []
 
         for i in range(numIntervalos):
-            inicio = self.truncar(a)
-            fin = self.truncar(a + anchoIntervalo)
+            inicio = a  # No truncar aquí todavía
+            fin = a + anchoIntervalo
 
             if i == numIntervalos - 1:
-                intervalos.append((inicio, b))
-                continue
+                intervalos.append((self.truncar(inicio), self.truncar(b)))  # Truncar solo al final
+            else:
+                intervalos.append((self.truncar(inicio), self.truncar(fin)))
 
-            intervalos.append((inicio, fin))
-            a = fin
-        print("cantidad de intervalos: " + str(len(intervalos)))
+            a = fin  # Actualizar a sin truncar
+
+        print("cantidad de intervalos:", len(intervalos))
+
 
         return intervalos
 
