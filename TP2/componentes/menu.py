@@ -49,9 +49,6 @@ class Menu:
         label2.pack(padx=10, pady=10)
 
     def abrir_ventanaNormal(self):
-        ventana3 = tk.Toplevel(self.root)
-        ventana3.title("Ventana 3")
-        ventana3.geometry("300x200")
-        label3 = tk.Label(ventana3, text="Esta es la ventana 3")
-        label3.pack(padx=10, pady=10)
+        normal = Ventana_Normal()
+
 

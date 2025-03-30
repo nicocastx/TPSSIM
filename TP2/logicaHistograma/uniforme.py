@@ -22,7 +22,7 @@ class Tabla(tk.Toplevel):
 
         #calcular la serie
         for i in range(nMuestras):
-            rnd = random.random() * 0.9999
+            rnd = random.random()
             self.serie.append(rnd)
 
         intervalos = self.logicaDistr.generarIntervalos(self.serie, numIntervalos)
