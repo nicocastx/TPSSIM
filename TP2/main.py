@@ -1,5 +1,4 @@
 import tkinter as tk
-from tkinter import ttk
 
 #todo : exponencial intarfaces -- Joaco
 #todo : normal interfaz -- Leisa

@@ -1,5 +1,6 @@
 import tkinter as tk
 
+from TP2.componentes.distribuciones.normal import Ventana_Normal
 from TP2.componentes.distribuciones.uniforme import Uniforme
 
 
