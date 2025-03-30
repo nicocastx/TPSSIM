@@ -13,10 +13,23 @@ class Tabla(tk.Toplevel):
         self.title("Tabla de resultados")
         self.geometry("500x300")
 
-        #calcular la serie
+        #calcular la serie    #CODIGO ORIGINAL
         for i in range(int(root.campos[0])):
             rnd = random.random().__round__(4)
             self.serie.append(rnd)
+
+        #calcular la serie   #ALTERNATIVA 1
+        #for i in range(int(root.campos[0])):
+        #    rnd = random.random()
+        #    rnd = '{:.4}'.format(rnd)
+        #    rnd = float(rnd)
+        #    self.serie.append(rnd)
+
+        # calcular la serie    #ALTERNATIVA 2 Creo q es mejor q la original
+        #for i in range(int(root.campos[0])):
+        #    rnd = random.random()
+        #    rnd = self.truncar(rnd)
+        #    self.serie.append(rnd)
 
 
         #aplicarformula()
@@ -38,7 +51,7 @@ class Tabla(tk.Toplevel):
             fin = self.truncar(a + anchoIntervalo)
 
             if i == numIntervalos - 1:
-                intervalos.append((a, b))
+                intervalos.append((inicio, b))  #TODO Anteriormente estaba a en lugar de inicio eso hacia q el ultimo intervalo no fuera correcto
                 continue
 
             intervalos.append((inicio, fin))
