@@ -6,11 +6,13 @@ from tkinter import ttk
 #todo : exponencial logica -- Caillou
 #todo : normal logica -- Jere
 #todo : completar la tabla -- Simon (revisar si la logica esta bien)
-#todo : revisar logica truncate ultimo intervalo -- ale archivo uniforme linea 40 !IMPORTANT
 #todo : revisar completar grafico uniforme -- Nico (verificar distribucion)
-#todo : distribuir valores entre los intervalos -- Kevin
-#todo : Abstraer utilidades -- Kevin
+#todo: Validaciones del campo uniforme tamano muestras -- Ale
 
+
+#todo : revisar logica truncate ultimo intervalo -- ale archivo uniforme linea 40 !IMPORTANT -- hecho
+#todo : distribuir valores entre los intervalos -- Kevin -- hecho
+#todo : Abstraer utilidades -- Kevin -- hecho
 
 from componentes.menu import Menu
 from estilo import estilo
