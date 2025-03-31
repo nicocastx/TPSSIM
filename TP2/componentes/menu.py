@@ -2,6 +2,7 @@ import tkinter as tk
 
 from TP2.componentes.distribuciones.normal import Ventana_Normal
 from TP2.componentes.distribuciones.uniforme import Uniforme
+from TP2.componentes.distribuciones.exponencial import Ventana_Exponencial
 
 
 class Menu:
@@ -42,11 +43,8 @@ class Menu:
 
 
     def abrir_ventanaExponencial(self):
-        ventana2 = tk.Toplevel(self.root)
-        ventana2.title("Ventana 2")
-        ventana2.geometry("300x200")
-        label2 = tk.Label(ventana2, text="Esta es la ventana 2")
-        label2.pack(padx=10, pady=10)
+        #exponencial = Ventana_Exponencial()
+        pass
 
     def abrir_ventanaNormal(self):
         normal = Ventana_Normal()
