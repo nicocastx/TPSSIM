@@ -2,7 +2,7 @@ import tkinter as tk
 
 from TP2.componentes.distribuciones.normal import Ventana_Normal
 from TP2.componentes.distribuciones.uniforme import Uniforme
-#from TP2.componentes.distribuciones.exponencial import Ventana_Exponencial
+from TP2.componentes.distribuciones.exponencial import Ventana_Exponencial
 
 
 class Menu:
@@ -41,10 +41,8 @@ class Menu:
     def abrir_ventanaUniforme(self):
         uniforme = Uniforme(self.root)
 
-
     def abrir_ventanaExponencial(self):
-        #exponencial = Ventana_Exponencial()
-        pass
+        exponencial = Ventana_Exponencial(self.root)
 
     def abrir_ventanaNormal(self):
         normal = Ventana_Normal()

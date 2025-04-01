@@ -7,14 +7,13 @@ import matplotlib.pyplot as plt
 from TP2.utilidades.logicaDistribuciones import logicaDistribuciones
 
 class TablaExponencial(tk.Toplevel):
-    def __init__(self, root):
+    def __init__(self, parent, numIntervalos, nMuestras, mu):
+        super().__init__(parent)
         self.logicaDistr = logicaDistribuciones()
         self.serie = []
-
-        super().__init__(root)
-        numIntervalos = int(root.campos[1])
-        nMuestras = int(root.campos[0])
-        self.mu = float(root.campos[2])
+        self.numIntervalos = numIntervalos
+        self.nMuestras = nMuestras
+        self.mu = mu
 
         self.title("Tabla de resultados (Distribución Exponencial)")
         self.geometry("500x300")
@@ -67,8 +66,8 @@ class TablaExponencial(tk.Toplevel):
         self.boton_histograma.pack()
 
     def mostrar_histograma(self):
-        plt.hist(self.serie, bins=int(self.root.campos[1]), density=True)
-        plt.title(f'Histograma Exponencial (μ={self.root.campos[2]})')
+        plt.hist(self.serie, bins=self.numIntervalos, density=True)
+        plt.title(f'Histograma Exponencial (μ={self.mu})')
         plt.xlabel('Valores')
         plt.ylabel('Frecuencia')
         plt.show()
