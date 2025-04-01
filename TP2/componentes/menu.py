@@ -2,7 +2,7 @@ import tkinter as tk
 
 from TP2.componentes.distribuciones.normal import Ventana_Normal
 from TP2.componentes.distribuciones.uniforme import Uniforme
-from TP2.componentes.distribuciones.exponencial import Ventana_Exponencial
+#from TP2.componentes.distribuciones.exponencial import Ventana_Exponencial
 
 
 class Menu:
