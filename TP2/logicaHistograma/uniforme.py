@@ -13,20 +13,21 @@ from TP2.utilidades.logicaDistribuciones import logicaDistribuciones
 class Tabla(tk.Toplevel):
     def __init__(self, root):
         self.logicaDistr = logicaDistribuciones()
-        self.serie = []
+       # self.serie = []
         self.intervalos = []
 
         super().__init__(root)
-        numIntervalos = int(root.campos[1])
+        numIntervalos = int(root.campos[3])
         nMuestras = int(root.campos[0])
+        a = float(root.campos[1]) # Valor A
+        b = float(root.campos[2]) # Valor B
 
         self.title("Tabla de resultados")
         self.geometry("600x500")
 
-        # Calcular la serie
-        for i in range(nMuestras):
-            rnd = random.random()
-            self.serie.append(rnd)
+        # Calcular la serie usando A y B
+
+        self.serie = self.generar_listauniforme(a, b, nMuestras)
 
         self.intervalos = self.logicaDistr.generarIntervalos(self.serie, numIntervalos)
 
@@ -125,4 +126,11 @@ class Tabla(tk.Toplevel):
 
         # Imprimir un mensaje para confirmar que los valores han sido copiados
         print("Valores copiados")
+
+    @staticmethod
+    def generar_listauniforme(a: float, b: float, n: int) -> list:
+        """Genera una lista de n números aleatorios con distribución uniforme entre a y b."""
+        if a > b:
+            a, b = b, a  # Intercambia valores si están en orden incorrecto
+        return [round(a + random.random() * (b - a), 4) for _ in range(n)]
 

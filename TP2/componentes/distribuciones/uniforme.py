@@ -9,7 +9,7 @@ class Uniforme(tk.Toplevel):
     def __init__(self, root):
         super().__init__(root)
         self.title("Distribucion uniforme para n muestras")
-        self.geometry("300x250")  # ajusta el tamaño de la ventana
+        self.geometry("600x450")  # ajusta el tamaño de la ventana
 
         # aquí puedes agregar campos y lógica para operar
         self.campos = []
@@ -17,6 +17,18 @@ class Uniforme(tk.Toplevel):
         self.nLabel.pack()
         self.nval = tk.Entry(self)
         self.nval.pack()
+
+        # Campos para los valores A y B
+        self.aLabel = tk.Label(self, text="Ingrese el valor A:")
+        self.aLabel.pack()
+        self.aVal = tk.Entry(self)
+        self.aVal.pack()
+
+        self.bLabel = tk.Label(self, text="Ingrese el valor B:")
+        self.bLabel.pack()
+        self.bVal = tk.Entry(self)
+        self.bVal.pack()
+
         # Agregamos un OptionMenu para seleccionar una opción
         self.opcionLabel = tk.Label(self, text="Ingrese una cantidad de intervalos:")
         self.opcionLabel.pack()
@@ -32,6 +44,8 @@ class Uniforme(tk.Toplevel):
 
     def operar(self):
         n_str = self.nval.get().strip()  # Eliminar espacios en blanco
+        a_str = self.aVal.get().strip()
+        b_str = self.bVal.get().strip()
         opcionIntervalo = self.opcionIntervalo.get()
 
         # Validar que n sea un número entero
@@ -46,10 +60,25 @@ class Uniforme(tk.Toplevel):
             messagebox.showerror("Error", "El número debe estar entre 1 y 1.000.000.")
             return
 
-        print(f"✅ Número válido: {n}, opción de intervalos: {opcionIntervalo}")
+        # Validar que A y B sean números válidos
+        try:
+            a = float(a_str)
+            b = float(b_str)
+        except ValueError:
+            messagebox.showerror("Error", "Los valores de A y B deben ser números válidos.")
+            return
+
+        # Validar que A < B
+        if a >= b:
+            messagebox.showerror("Error", "El valor de A debe ser menor que el valor de B.")
+            return
+
+        print(f"✅ Número válido: {n}, A: {a}, B: {b}, opción de intervalos: {opcionIntervalo}")
 
         # Si `n` es válido, almacenarlo y ejecutar la simulación
         self.campos.append(n)
+        self.campos.append(a)
+        self.campos.append(b)
         self.campos.append(opcionIntervalo)
 
         tabla = Tabla(self)
