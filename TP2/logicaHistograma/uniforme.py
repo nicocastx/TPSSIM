@@ -2,12 +2,13 @@ import math
 import random
 import tkinter as tk
 from tkinter import ttk
+
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
-from TP2.utilidades.logicaDistribuciones import logicaDistribuciones
+from utilidades.logicaDistribuciones import logicaDistribuciones
 
 
 class Tabla(tk.Toplevel):

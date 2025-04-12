@@ -2,7 +2,7 @@
 import tkinter as tk
 from tkinter import messagebox
 
-from TP2.logicaHistograma.uniforme import Tabla
+from logicaHistograma.uniforme import Tabla
 
 
 class Uniforme(tk.Toplevel):

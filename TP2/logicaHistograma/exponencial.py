@@ -5,7 +5,7 @@ from tkinter import ttk
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-from TP2.utilidades.logicaDistribuciones import logicaDistribuciones
+from utilidades.logicaDistribuciones import logicaDistribuciones
 
 class TablaExponencial(tk.Toplevel):
     def __init__(self, parent, numIntervalos, nMuestras, mu):

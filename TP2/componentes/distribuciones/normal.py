@@ -4,7 +4,7 @@ import tkinter as tk
 # def abrir_ventanaNormal(self): esto para menu.py
 #     Ventana_Normal()
 
-
+from logicaHistograma.normal import TablaNormal
 
 import tkinter as tk
 
@@ -26,12 +26,17 @@ class Ventana_Normal:
         self.abrir_ventana()
 
     def get_parametros(self):
-        # Obtener el valor directamente del Entry
-        self.tamanio_muestra = self.tamanio_muestra_entry.get()
-        self.media_var = self.mu_entry.get()
-        self.desviacion_var = self.sigma_entry.get()
-        self.intervalos_var = self.intervalos_entry.get()
+        try:
+            tamanio_muestra = int(self.tamanio_muestra_entry.get())
+            media = float(self.mu_entry.get())
+            desviacion = float(self.sigma_entry.get())
+            intervalos = int(self.intervalos_entry.get())
 
+            # ✅ Abrir la ventana de tabla con los datos
+            TablaNormal(self.root, intervalos, tamanio_muestra, media, desviacion)
+
+        except ValueError:
+            print("Por favor, ingresa valores válidos.")
         #todo: pasar estos 4 valores para tabla e histograma | tabla(tamaño, mu, sigma, intervalos)
         print(self.tamanio_muestra, self.media_var, self.desviacion_var, self.intervalos_var)
 
