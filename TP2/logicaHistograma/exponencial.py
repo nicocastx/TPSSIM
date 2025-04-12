@@ -5,7 +5,7 @@ from tkinter import ttk
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-from utilidades.logicaDistribuciones import logicaDistribuciones
+from TP2.utilidades.logicaDistribuciones import logicaDistribuciones
 
 class TablaExponencial(tk.Toplevel):
     def __init__(self, parent, numIntervalos, nMuestras, mu):
@@ -20,6 +20,7 @@ class TablaExponencial(tk.Toplevel):
         self.geometry("500x300")
 
         upper_limit = 1 - math.exp(-1 / self.mu)
+        print("Upper limit:", upper_limit)
 
         # Generación de números exponenciales ACOTADOS [0, 1)
         for _ in range(nMuestras):

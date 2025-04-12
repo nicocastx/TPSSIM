@@ -4,7 +4,7 @@ from tkinter import ttk
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-from utilidades.logicaDistribuciones import logicaDistribuciones
+from TP2.utilidades.logicaDistribuciones import logicaDistribuciones
 
 class TablaNormal(tk.Toplevel):
     def __init__(self, parent, numIntervalos, nMuestras, media, desviacion):

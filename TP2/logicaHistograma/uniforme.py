@@ -8,7 +8,7 @@ import numpy as np
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
-from utilidades.logicaDistribuciones import logicaDistribuciones
+from TP2.utilidades.logicaDistribuciones import logicaDistribuciones
 
 
 class Tabla(tk.Toplevel):

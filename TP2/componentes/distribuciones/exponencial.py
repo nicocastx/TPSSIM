@@ -1,7 +1,7 @@
 # exponencial.py
 
 import tkinter as tk
-from logicaHistograma.exponencial import TablaExponencial
+from TP2.logicaHistograma.exponencial import TablaExponencial
 
 class Ventana_Exponencial:
     def __init__(self, parent):

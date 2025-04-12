@@ -4,7 +4,7 @@ import tkinter as tk
 # def abrir_ventanaNormal(self): esto para menu.py
 #     Ventana_Normal()
 
-from logicaHistograma.normal import TablaNormal
+from TP2.logicaHistograma.normal import TablaNormal
 
 import tkinter as tk
 
