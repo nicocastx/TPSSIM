@@ -1,5 +1,5 @@
 import tkinter as tk
-
+from tkinter import messagebox
 
 # def abrir_ventanaNormal(self): esto para menu.py
 #     Ventana_Normal()
@@ -24,6 +24,16 @@ class Ventana_Normal:
             media = float(self.mu_entry.get())
             desviacion = float(self.sigma_entry.get())
             intervalos = int(self.intervalos_entry.get())
+
+            if tamanio_muestra <= 0 or tamanio_muestra > 1000000:
+                messagebox.showerror("Error", "El número debe estar entre 1 y 1.000.000.")
+                return
+
+            if media <= 0:
+                messagebox.showerror("Error", "El valor de media debe ser positivo.")
+                return
+            if desviacion <= 0:
+                messagebox.showerror(title="Error", message="El valor de la desviación debe ser positivo")
 
             # ✅ Abrir la ventana de tabla con los datos
             TablaNormal(self.window, intervalos, tamanio_muestra, media, desviacion)
