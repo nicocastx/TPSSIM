@@ -11,19 +11,12 @@ import tkinter as tk
 
 class Ventana_Normal:
     def __init__(self):
-        self.root = None
-        self.tamanio_muestra = None
-        # media - mu
-        self.media_var = None
-        # desviacion - sigma
-        self.desviacion_var = None
-        self.intervalos_var = None
-
+        self.window = None
+        self.tamanio_muestra_entry = None
         self.mu_entry = None
         self.sigma_entry = None
         self.intervalos_entry = None
-        self.tamanio_muestra_entry = None
-        self.abrir_ventana()
+        
 
     def get_parametros(self):
         try:
@@ -33,44 +26,44 @@ class Ventana_Normal:
             intervalos = int(self.intervalos_entry.get())
 
             # ✅ Abrir la ventana de tabla con los datos
-            TablaNormal(self.root, intervalos, tamanio_muestra, media, desviacion)
+            TablaNormal(self.window, intervalos, tamanio_muestra, media, desviacion)
 
         except ValueError:
             print("Por favor, ingresa valores válidos.")
-        #todo: pasar estos 4 valores para tabla e histograma | tabla(tamaño, mu, sigma, intervalos)
-        print(self.tamanio_muestra, self.media_var, self.desviacion_var, self.intervalos_var)
+
+
 
     def abrir_ventana(self):
-        self.root = tk.Tk()
-        self.root.title("Distribución normal para n muestras")
+        self.window = tk.Tk()
+        self.window.title("Distribución normal para n muestras")
         self.mostrar_valores()
-        self.root.mainloop()
+        self.window.mainloop()
 
     def mostrar_valores(self):
 
-        muestra_label = tk.Label(self.root, text="Ingresa la cantidad de muestras a simular: ")
-        muestra_label.grid(row=0, column=0, sticky="w")
-        self.tamanio_muestra_entry = tk.Entry(self.root, text="Ingresa el tamaño de la muestra")
-        self.tamanio_muestra_entry.grid(row=0, column=1)
+        muestra_label = tk.Label(self.window, text="Ingresa la cantidad de muestras a simular: ")
+        muestra_label.pack()
+        self.tamanio_muestra_entry = tk.Entry(self.window)
+        self.tamanio_muestra_entry.pack()
 
-        mu_label = tk.Label(self.root, text="Ingresa el valor de mu (media): ")
-        mu_label.grid(row=1, column=0, sticky="w")
-        self.mu_entry = tk.Entry(self.root)
-        self.mu_entry.grid(row=1, column=1)
+        mu_label = tk.Label(self.window, text="Ingresa el valor de mu (media): ")
+        mu_label.pack()
+        self.mu_entry = (tk.Entry(self.window))
+        self.mu_entry.pack()
 
-        sigma_label = tk.Label(self.root, text="Ingresa el valor de sigma (desviacion): ")
-        sigma_label.grid(row=2, column=0, sticky="w")
-        self.sigma_entry = tk.Entry(self.root)
-        self.sigma_entry.grid(row=2, column=1)
+        sigma_label = tk.Label(self.window, text="Ingresa el valor de sigma (desviacion): ")
+        sigma_label.pack()
+        self.sigma_entry = (tk.Entry(self.window))
+        self.sigma_entry.pack()
 
-        intervalos_label = tk.Label(self.root, text="Ingresa el numero de intervalos: ")
-        intervalos_label.grid(row=3, column=0, sticky="w")
-        self.intervalos_entry = tk.StringVar(self.root)
+        intervalos_label = tk.Label(self.window, text="Ingresa el numero de intervalos: ")
+        intervalos_label.pack()
+        self.intervalos_entry = tk.StringVar(self.window)
         self.intervalos_entry.set("10")
         opciones = ["10", "15", "20", "30"]
         for opcionIntervalo in opciones:
-            tk.Radiobutton(self.root, text= opcionIntervalo, variable=self.intervalos_entry, value=opcionIntervalo).grid()
+            tk.Radiobutton(self.window, text= opcionIntervalo, variable=self.intervalos_entry, value=opcionIntervalo).pack()
 
         # Toma los valores y los pasa a la función lógica
-        boton = tk.Button(self.root, text="Armar tabla", command=self.get_parametros)
-        boton.grid(row=10, column=0)
+        boton = tk.Button(self.window, text="Armar tabla", command=self.get_parametros)
+        boton.pack()

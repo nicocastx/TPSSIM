@@ -6,9 +6,9 @@ from TP2.componentes.distribuciones.exponencial import Ventana_Exponencial
 
 
 class Menu:
-    def __init__(self, root):
-        self.root = root
-        self.menu_frame = tk.Frame(root)
+    def __init__(self, window):
+        self.window = window
+        self.menu_frame = tk.Frame(window)
         self.menu_frame.pack(side="top", fill="x")
 
         self.menu_title = tk.Label(self.menu_frame, text="Menú", font=("Helvetica", 16))
@@ -39,12 +39,12 @@ class Menu:
         self.buttonNormal.config(bg=estilo.color_boton, fg=estilo.color_texto)
 
     def abrir_ventanaUniforme(self):
-        uniforme = Uniforme(self.root)
+        uniforme = Uniforme(self.window)
 
     def abrir_ventanaExponencial(self):
-        exponencial = Ventana_Exponencial(self.root)
+        exponencial = Ventana_Exponencial(self.window)
 
     def abrir_ventanaNormal(self):
-        normal = Ventana_Normal()
+        Ventana_Normal().abrir_ventana()
 
 
