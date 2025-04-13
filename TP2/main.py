@@ -2,9 +2,23 @@ import tkinter as tk
 
 # todo : copiar los valores no copia los valores decimales la funcion
 # todo : encontrar la manera de que se puedan reingresar datos en las tablas de formulario (u ocultarlos)
-# todo : validar campos de normal y exponencial
-# todo : revisar si el uso de la funcion de distribucion para normal es correcto
+#-------------------------------------------------------------------------------
+#NOVEDADES: by Ale
 
+#===================
+#todo Cambios en la Normal:
+
+# Hecho : revisar si el uso de la funcion de distribucion para normal es correcto/ (SI PERO NO por random.gauss)
+# Cambie la distribucion Normal y la hice por el metodo de Box-Muller-- Hecho
+# Hecho : validar campos de normal
+# ACLARACION: La generacion del RND esta dentro de utilidades en logicaDistribuciones
+#===================
+# todo Cambios en la Exponencial:
+#Ale: hice una validacion de los campos de la exponencial, pero no se si es la correcta --todo Verificar
+# Le pedi al decimo integrante ;) que haga una Interfaz para la exponencial en donde me permita seleccionar si voy
+#a usar lambda o mu, y que me haga la conversion de lambda a mu. (no manejo tkinter)
+
+#--------------------------------------------------------------------------------
 
 #exponencial logica -- Caillou -- hecho
 #normal logica -- Jere -- hecho

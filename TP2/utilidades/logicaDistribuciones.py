@@ -1,4 +1,5 @@
 import math
+import random
 
 
 class logicaDistribuciones():
@@ -58,4 +59,25 @@ class logicaDistribuciones():
 
         return intervalos
 
+    def generar_normal_box_muller(self, n, mu, sigma):
+        normales = []
+        for i in range(n // 2):
+            u1 = random.random()
+            u2 = random.random()
+            r = math.sqrt(-2 * math.log(u1))
+            theta = 2 * math.pi * u2
+            z1 = r * math.cos(theta)
+            z2 = r * math.sin(theta)
+            normales.append(z1 * sigma + mu)
+            normales.append(z2 * sigma + mu)
 
+        # Si es impar, generamos un valor más
+        if n % 2 == 1:
+            u1 = random.random()
+            u2 = random.random()
+            r = math.sqrt(-2 * math.log(u1))
+            theta = 2 * math.pi * u2
+            z1 = r * math.cos(theta)
+            normales.append(z1 * sigma + mu)
+
+        return normales

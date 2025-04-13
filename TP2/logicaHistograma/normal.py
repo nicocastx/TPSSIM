@@ -19,10 +19,8 @@ class TablaNormal(tk.Toplevel):
         self.title("Tabla de resultados (Distribución Normal)")
         self.geometry("500x300")
 
-        # Generación de números normales
-        for _ in range(nMuestras):
-            valor = random.gauss(self.media, self.desviacion)
-            self.serie.append(valor)
+        # Generación de números normales llamando a la funcion dentro de logicaDistribuciones
+        self.serie = self.logicaDistr.generar_normal_box_muller(self.nMuestras, self.media, self.desviacion)
 
         self.intervalos = self.logicaDistr.generarIntervalos(self.serie, numIntervalos)
         self.contadores_intervalos = self.logicaDistr.contadorIntervalos(self.serie, self.intervalos)

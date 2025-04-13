@@ -7,38 +7,42 @@ import tkinter as tk
 from TP2.logicaHistograma.normal import TablaNormal
 
 import tkinter as tk
-
+from tkinter import messagebox
 
 class Ventana_Normal:
     def __init__(self):
         self.root = None
-        self.tamanio_muestra = None
-        # media - mu
-        self.media_var = None
-        # desviacion - sigma
-        self.desviacion_var = None
-        self.intervalos_var = None
 
         self.mu_entry = None
         self.sigma_entry = None
-        self.intervalos_entry = None
         self.tamanio_muestra_entry = None
+        self.intervalos_var = None
+
         self.abrir_ventana()
 
     def get_parametros(self):
         try:
-            tamanio_muestra = int(self.tamanio_muestra_entry.get())
-            media = float(self.mu_entry.get())
-            desviacion = float(self.sigma_entry.get())
+            # Obtener los valores desde los campos correctos
+            mu = float(self.mu_entry.get())
+            sigma = float(self.sigma_entry.get())
+            n = int(self.tamanio_muestra_entry.get())
             intervalos = int(self.intervalos_entry.get())
 
-            # ✅ Abrir la ventana de tabla con los datos
-            TablaNormal(self.root, intervalos, tamanio_muestra, media, desviacion)
+            if sigma <= 0:
+                messagebox.showerror("Error", "La desviación estándar (σ) debe ser mayor a 0.")
+                return
+
+            if n < 1 or n > 1000000:
+                messagebox.showerror("Error", "La cantidad de muestras debe estar entre 1 y 1.000.000.")
+                return
 
         except ValueError:
-            print("Por favor, ingresa valores válidos.")
-        #todo: pasar estos 4 valores para tabla e histograma | tabla(tamaño, mu, sigma, intervalos)
-        print(self.tamanio_muestra, self.media_var, self.desviacion_var, self.intervalos_var)
+            messagebox.showerror("Error", "Todos los campos deben contener valores numéricos válidos.")
+            return
+
+        # Si está todo bien, pasamos a la lógica
+        TablaNormal(self.root, intervalos, n, mu, sigma)
+        print("n:",n,"mu:",mu,"sigma:",sigma,"intervalos:", intervalos)
 
     def abrir_ventana(self):
         self.root = tk.Tk()
