@@ -19,12 +19,12 @@ class TablaExponencial(tk.Toplevel):
         self.title("Tabla de resultados (Distribución Exponencial)")
         self.geometry("500x300")
 
-        upper_limit = 1 - math.exp(-1 / self.mu)
-        print("Upper limit:", upper_limit)
+        # upper_limit = 1 - math.exp(-1 / self.mu)
+        # print("Upper limit:", upper_limit)
 
         # Generación de números exponenciales ACOTADOS [0, 1)
         for _ in range(nMuestras):
-            rnd = random.random() * upper_limit  # RND escalado
+            rnd = random.random() # * upper_limit  # RND escalado
             x = -self.mu * math.log(1 - rnd)
             self.serie.append(x)
 
