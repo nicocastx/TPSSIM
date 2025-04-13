@@ -46,5 +46,5 @@ class Menu:
 
     def abrir_ventanaNormal(self):
         Ventana_Normal().abrir_ventana()
-        #test
+
 
