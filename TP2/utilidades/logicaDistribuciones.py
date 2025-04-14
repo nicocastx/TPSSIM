@@ -81,3 +81,34 @@ class logicaDistribuciones():
             normales.append(z1 * sigma + mu)
 
         return normales
+
+    def copiar_valores(self, logica):
+        """Copia los valores de la tabla al portapapeles en formato tabulado."""
+        # Obtener la lista de ítems de la tabla
+        items = logica.tabla.get_children()
+
+        # Crear una lista para almacenar los valores
+        valores = []
+
+        # Recorrer la lista de ítems y obtener los valores
+        for item in items:
+            agregarItem = logica.tabla.item(item, 'values')
+            #CAMBIAR DEPENDIENDO SI LOS DECIMALES VAN CON PUNTO O CON COMA
+            agregarItem = tuple(val.replace('.', ',') for val in agregarItem)
+            valores.append(agregarItem)
+
+        # Formatear los valores en formato CSV con tabulación
+        csv_data = []
+        csv_data.append('\t'.join(logica.tabla['columns']))  # Agregar los nombres de las columnas
+        for fila in valores:
+            csv_data.append('\t'.join(map(str, fila)))
+
+        # Unir las filas con saltos de línea
+        csv_data = '\n'.join(csv_data)
+
+        # Copiar los datos a la clipboard
+        logica.clipboard_clear()
+        logica.clipboard_append(csv_data)
+
+        # Imprimir un mensaje para confirmar que los valores han sido copiados
+        print("Valores copiados")

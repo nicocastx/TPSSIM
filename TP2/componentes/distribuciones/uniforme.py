@@ -2,7 +2,7 @@
 import tkinter as tk
 from tkinter import messagebox
 
-from TP2.logicaHistograma.uniforme import Tabla
+from TP2.logicaHistograma.uniforme import GenerarUniforme
 
 
 class Uniforme(tk.Toplevel):
@@ -76,10 +76,11 @@ class Uniforme(tk.Toplevel):
         print(f"✅ Número válido: {n}, A: {a}, B: {b}, opción de intervalos: {opcionIntervalo}")
 
         # Si `n` es válido, almacenarlo y ejecutar la simulación
+        self.campos = []
         self.campos.append(n)
         self.campos.append(a)
         self.campos.append(b)
         self.campos.append(opcionIntervalo)
 
-        tabla = Tabla(self)
+        tabla = GenerarUniforme(self)
         tabla.mainloop()

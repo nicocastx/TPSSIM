@@ -80,9 +80,4 @@ class TablaNormal(tk.Toplevel):
         canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
 
     def copiar_valores(self):
-        items = self.tabla.get_children()
-        valores = [self.tabla.item(item, 'values') for item in items]
-        csv_data = ['\t'.join(self.tabla['columns'])] + ['\t'.join(map(str, fila)) for fila in valores]
-        self.clipboard_clear()
-        self.clipboard_append('\n'.join(csv_data))
-        print("Valores copiados")
+        self.logicaDistr.copiar_valores(self)

@@ -11,7 +11,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from TP2.utilidades.logicaDistribuciones import logicaDistribuciones
 
 
-class Tabla(tk.Toplevel):
+class GenerarUniforme(tk.Toplevel):
     def __init__(self, root):
         self.logicaDistr = logicaDistribuciones()
        # self.serie = []
@@ -41,33 +41,9 @@ class Tabla(tk.Toplevel):
 
         self.crear_tabla()
 
+    #Funcion para copiar los valores revisar ciclo for "item in items" si usar coma o punto, por defecto es punto
     def copiar_valores(self):
-        """Copia los valores de la tabla al portapapeles en formato tabulado."""
-        # Obtener la lista de ítems de la tabla
-        items = self.tabla.get_children()
-
-        # Crear una lista para almacenar los valores
-        valores = []
-
-        # Recorrer la lista de ítems y obtener los valores
-        for item in items:
-            valores.append(self.tabla.item(item, 'values'))
-
-        # Formatear los valores en formato CSV con tabulación
-        csv_data = []
-        csv_data.append('\t'.join(self.tabla['columns']))  # Agregar los nombres de las columnas
-        for fila in valores:
-            csv_data.append('\t'.join(map(str, fila)))
-
-        # Unir las filas con saltos de línea
-        csv_data = '\n'.join(csv_data)
-
-        # Copiar los datos a la clipboard
-        self.clipboard_clear()
-        self.clipboard_append(csv_data)
-
-        # Imprimir un mensaje para confirmar que los valores han sido copiados
-        print("Valores copiados")
+        self.logicaDistr.copiar_valores(self)
 
     @staticmethod
     def generar_listauniforme(a: float, b: float, n: int) -> list:
