@@ -1,6 +1,3 @@
-import tkinter as tk
-
-
 # def abrir_ventanaNormal(self): esto para menu.py
 #     Ventana_Normal()
 

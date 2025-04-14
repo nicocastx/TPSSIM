@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 from TP2.logicaHistograma.exponencial import TablaExponencial
 
 class Ventana_Exponencial:
@@ -6,13 +7,11 @@ class Ventana_Exponencial:
         self.parent = parent
         self.root = tk.Toplevel(parent)
 
-        # Entradas
         self.tamanio_muestra_entry = None
         self.mu_entry = None
         self.lambda_entry = None
         self.intervalos_entry = None
 
-        # Opción seleccionada: mu o lambda
         self.parametro_var = tk.StringVar(value="mu")
 
         self.root.title("Distribución Exponencial")
@@ -29,25 +28,28 @@ class Ventana_Exponencial:
     def get_parametros(self):
         try:
             nMuestras = int(self.tamanio_muestra_entry.get())
-            numIntervalos = int(self.intervalos_entry.get())
-
             if nMuestras <= 0 or nMuestras > 1000000:
-                raise ValueError("La cantidad de muestras debe estar entre 1 y 1.000.000")
+                messagebox.showerror("Error", "La cantidad de muestras debe estar entre 1 y 1.000.000.")
+                return
 
             if self.parametro_var.get() == "mu":
                 mu = float(self.mu_entry.get())
                 if mu <= 0:
-                    raise ValueError("μ debe ser mayor a 0")
+                    messagebox.showerror("Error", "μ (media) debe ser mayor a 0.")
+                    return
             else:
                 lamb = float(self.lambda_entry.get())
                 if lamb <= 0:
-                    raise ValueError("λ debe ser mayor a 0")
-                mu = 1 / lamb  # Lo transformamos a mu
+                    messagebox.showerror("Error", "λ (tasa) debe ser mayor a 0.")
+                    return
+                mu = 1 / lamb  # Convertimos lambda a mu
 
+            numIntervalos = int(self.intervalos_entry.get())
             self.crear_tabla([numIntervalos, nMuestras, mu])
 
-        except ValueError as e:
-            print("Error:", e)
+        except ValueError:
+            messagebox.showerror("Error", "Todos los campos deben contener valores numéricos válidos.")
+            return
 
     def crear_tabla(self, campos):
         numIntervalos = campos[0]
@@ -71,12 +73,12 @@ class Ventana_Exponencial:
         self.mu_entry = tk.Entry(self.root)
         self.mu_entry.grid(row=3, column=1)
 
-        # Entrada para lambda (inicialmente deshabilitada)
+        # Entrada para lambda
         tk.Label(self.root, text="Valor de λ:").grid(row=4, column=0, sticky="w")
         self.lambda_entry = tk.Entry(self.root, state="disabled")
         self.lambda_entry.grid(row=4, column=1)
 
-        # Selección de intervalos
+        # Intervalos
         tk.Label(self.root, text="Número de intervalos:").grid(row=5, column=0, sticky="w")
         self.intervalos_entry = tk.StringVar(self.root)
         self.intervalos_entry.set("10")
@@ -84,6 +86,6 @@ class Ventana_Exponencial:
         for i, opcion in enumerate(opciones):
             tk.Radiobutton(self.root, text=opcion, variable=self.intervalos_entry, value=opcion).grid(row=6 + i, column=0, sticky="w")
 
-        # Botón para generar tabla
+        # Botón
         boton = tk.Button(self.root, text="Generar tabla", command=self.get_parametros)
         boton.grid(row=11, column=0, columnspan=2)
