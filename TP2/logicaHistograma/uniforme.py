@@ -41,6 +41,10 @@ class GenerarUniforme(tk.Toplevel):
 
         self.crear_tabla()
 
+        # Boton para copiar la serie la valores
+        self.boton_copiar_serie = tk.Button(self, text="Copiar Serie", command=self.copiar_serie)
+        self.boton_copiar_serie.pack()
+
     #Funcion para copiar los valores revisar ciclo for "item in items" si usar coma o punto, por defecto es punto
     def copiar_valores(self):
         self.logicaDistr.copiar_valores(self)
@@ -77,8 +81,8 @@ class GenerarUniforme(tk.Toplevel):
             i + 1, f"{intervalo[0]:.4f}", f"{intervalo[1]:.4f}", self.contadores_intervalos[i]))
 
         # Botón para copiar todos los valores
-        self.boton_copiar = tk.Button(self, text="Copiar todos los valores", command=self.copiar_valores)
-        self.boton_copiar.pack()
+        self.boton_copiar_frecuencias = tk.Button(self, text="Copiar Tabla de frecuencias", command=self.copiar_valores)
+        self.boton_copiar_frecuencias.pack()
 
         # Botón para mostrar histograma
         self.boton_histograma = tk.Button(self, text="Ver Histograma", command=self.generar_histograma)
@@ -119,3 +123,6 @@ class GenerarUniforme(tk.Toplevel):
         canvas = FigureCanvasTkAgg(fig, master=ventana_histograma)
         canvas.draw()
         canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+
+    def copiar_serie(self):
+        self.logicaDistr.copiar_serie(self)

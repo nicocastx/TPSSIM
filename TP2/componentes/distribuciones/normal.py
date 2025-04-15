@@ -49,7 +49,7 @@ class Ventana_Normal:
 
     def mostrar_valores(self):
 
-        muestra_label = tk.Label(self.root, text="Ingresa la cantidad de muestras a simular: ")
+        muestra_label = tk.Label(self.root, text="Ingresa la cantidad de muestras a simular (maximo 1.000.000): ")
         muestra_label.grid(row=0, column=0, sticky="w")
         self.tamanio_muestra_entry = tk.Entry(self.root, text="Ingresa el tamaño de la muestra")
         self.tamanio_muestra_entry.grid(row=0, column=1)

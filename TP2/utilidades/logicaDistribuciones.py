@@ -1,5 +1,6 @@
 import math
 import random
+from os import replace
 
 
 class logicaDistribuciones():
@@ -112,3 +113,13 @@ class logicaDistribuciones():
 
         # Imprimir un mensaje para confirmar que los valores han sido copiados
         print("Valores copiados")
+
+    def copiar_serie(self, logica):
+        # Copiar los datos a la clipboard
+        logica.clipboard_clear()
+        serieCopiada = (' '.join(map(str, map(self.truncar, logica.serie)))).replace(' ', '\n').replace('.', ',')
+        logica.clipboard_append(serieCopiada)
+
+        # Imprimir un mensaje para confirmar que los valores han sido copiados
+        print("Valores copiados")
+

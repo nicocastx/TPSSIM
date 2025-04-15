@@ -47,11 +47,16 @@ class TablaNormal(tk.Toplevel):
             self.tabla.insert('', 'end', values=(
                 i + 1, f"{intervalo[0]:.4f}", f"{intervalo[1]:.4f}", self.contadores_intervalos[i]))
 
-        self.boton_copiar = tk.Button(self, text="Copiar todos los valores", command=self.copiar_valores)
-        self.boton_copiar.pack()
+        # Botón para copiar todos los valores
+        self.boton_copiar_frecuencias = tk.Button(self, text="Copiar Tabla de frecuencias", command=self.copiar_valores)
+        self.boton_copiar_frecuencias.pack()
 
         self.boton_histograma = tk.Button(self, text="Ver Histograma", command=self.generar_histograma)
         self.boton_histograma.pack()
+
+        # Boton para copiar la serie la valores
+        self.boton_copiar_serie = tk.Button(self, text="Copiar Serie", command=self.copiar_serie)
+        self.boton_copiar_serie.pack()
 
         self.tabla.pack()
         self.frame_histograma = tk.Frame(self)
@@ -81,3 +86,6 @@ class TablaNormal(tk.Toplevel):
 
     def copiar_valores(self):
         self.logicaDistr.copiar_valores(self)
+
+    def copiar_serie(self):
+        self.logicaDistr.copiar_serie(self)

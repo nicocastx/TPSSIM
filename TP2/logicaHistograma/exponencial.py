@@ -61,8 +61,9 @@ class TablaExponencial(tk.Toplevel):
                 i + 1, f"{intervalo[0]:.4f}", f"{intervalo[1]:.4f}", self.contadores_intervalos[i]))
 
         # Botón para copiar todos los valores
-        self.boton_copiar = tk.Button(self, text="Copiar todos los valores", command=self.copiar_valores)
-        self.boton_copiar.pack()
+        self.boton_copiar_frecuencias = tk.Button(self, text="Copiar Tabla de frecuencias",
+                                                 command=self.copiar_valores)
+        self.boton_copiar_frecuencias.pack()
 
         # Botón para mostrar histograma
         self.boton_histograma = tk.Button(self, text="Ver Histograma", command=self.generar_histograma)
@@ -70,6 +71,10 @@ class TablaExponencial(tk.Toplevel):
 
         # Agregar tabla a la ventana
         self.tabla.pack()
+
+        # Boton para copiar la serie la valores
+        self.boton_copiar_serie = tk.Button(self, text="Copiar Serie", command=self.copiar_serie)
+        self.boton_copiar_serie.pack()
 
         # Frame para el histograma
         self.frame_histograma = tk.Frame(self)
@@ -106,3 +111,6 @@ class TablaExponencial(tk.Toplevel):
 
     def copiar_valores(self):
         self.logicaDistr.copiar_valores(self)
+
+    def copiar_serie(self):
+        self.logicaDistr.copiar_serie(self)
