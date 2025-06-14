@@ -1,0 +1,213 @@
+import tkinter as tk
+
+from TP5.Objetos.LogicaPrincipal import LogicaPrincipal
+
+# Elementos parametrizables
+# --- Formulario 1: Tiempo de llegada (Uniforme) ---
+# Formulario 2: Tiempo de atención (Fijo)
+
+# Objetos posibles:
+# VectorEstados - Sera cada una de las filas, donde llevaran la logica para la simulacion
+# VectorEstados tendra:
+# Reloj, Evento, RND, Tiempo llegada, Hora, ...
+# Cliente - Abstraemos del vector a los clientes en una lista, para mejor manejo y facilitar logica y busqueda
+
+#La idea va a ser que la logica se lleva en principal, haya 2 vector estado, y se vaya armando la cadena para
+#alimentar la tabla, ya que solo necesita una lista de cadenas
+"""
+Se deberá simular X tiempo (parámetro solicitado al inicio) generando N cantidad de iteraciones 
+en total. El aplicativo debe permitir simular hasta 100000 iteraciones del vector de estado ó 
+hasta el tiempo X, lo que ocurra primero.
+--- De esto se entiende que como X es tiempo y dice parametro, las iteraciones van a hacerse hasta ese tiempo
+
+Se mostrará en el vector de estado i iteraciones a partir de una hora j (valores i y j ingresados 
+por parámetro). 
+-- por lo que entiendo, a partir de una hora, ejemplo 20, se deben cargar a partir de ese minuto 20, las iteraciones pedidas
+-- es decir, se pasa i 30 iteraciones, desde un minuto 30, a partir de la fila reloj del minuto 30, se cargan 30 filas
+
+TODO poner en el footer la ultima linea de la tabla
+
+El vector de estado debe mostrar como mínimo la siguiente información:  
+- número de fila - hora simulada 
+- nombre del evento simulado 
+- próximos eventos a ejecutarse 
+
+- Objetos considerados en la simulación, cada uno con sus atributos: 
+- nombre, por ser estático podrá estar en el encabezado 
+- estado  - otros atributos necesarios 
+- Variables auxiliares (acumuladores, contadores,...)
+
+
+"""
+
+
+from TP5.tabla.TablaPrincipal import TablaPrincipal
+
+
+class CafetinApp:
+    def __init__(self, root):
+        #Logica principal
+        #self.logica = LogicaPrincipal()
+
+        self.root = root
+        self.root.title("Cafetin Literario - Grupo 14")
+        self.root.minsize(1400, 600)  # Aumenté el tamaño mínimo de la ventana
+
+        # Valores predeterminados
+        self.min_llegada = 0
+        self.max_llegada = 0
+        self.tiempo_atencion = 0
+        self.tiempo_limite = 0
+        self.iteraciones = 0
+        self.hora_desde = "00:00"
+
+        # --- Contenedor principal ---
+        main_container = tk.Frame(self.root, padx=20, pady=10)  # Aumenté el padding
+        main_container.pack(fill="both", expand=True)
+
+        # --- Fila superior (formularios + botones) ---
+        top_row = tk.Frame(main_container, pady=15)  # Aumenté el espacio vertical
+        top_row.pack(fill="x", pady=(0, 15))
+
+        # --- Contenedor de formularios (izquierda) ---
+        form_container = tk.Frame(top_row)
+        form_container.pack(side="left", fill="both", expand=True, padx=10)
+
+        # --- Contenedor de botones (derecha) ---
+        btn_frame = tk.Frame(top_row, bg="#f0f0f0", padx=15, pady=15)  # Aumenté el padding
+        btn_frame.pack(side="right", fill="y")
+
+        # Configuración de fuente para los botones
+        button_font = ('Arial', 10, 'bold')
+        button_padx = 15
+        button_pady = 8
+
+        self.btn_iniciar = tk.Button(btn_frame, text="Iniciar Simulación", bg="#4CAF50", fg="white",
+                                     font=button_font, padx=button_padx, pady=button_pady,
+                                     command=self.cargar_datos_ejemplo)
+        self.btn_iniciar.pack(fill="x", pady=5)
+
+        self.btn_limpiar = tk.Button(btn_frame, text="Limpiar Datos", bg="#f44336", fg="white",
+                                     font=button_font, padx=button_padx, pady=button_pady,
+                                     command=self.limpiar_tabla)
+        self.btn_limpiar.pack(fill="x", pady=5)
+
+        # --- Formularios ---
+        # Frame para organizar los formularios en dos columnas
+        form_columns = tk.Frame(form_container)
+        form_columns.pack(fill="both", expand=True)
+
+        # Ajustar el espacio entre columnas
+        form_columns.columnconfigure(0, weight=1, pad=20)
+        form_columns.columnconfigure(1, weight=1, pad=20)
+
+        # Columna izquierda (Tiempo de llegada y atención)
+        left_form = tk.LabelFrame(form_columns, text="Parámetros de Simulación", padx=15, pady=15)
+        left_form.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+
+        # Aumentar el tamaño de las etiquetas
+        label_style = {'font': ('Arial', 14), 'pady': 4}
+        entry_style = {'width': 15, 'font': ('Arial', 12)}
+
+        # Formulario 1: Tiempo de llegada (Uniforme)
+        tk.Label(left_form, text="Tiempo de Llegada (min):", **label_style).grid(row=0, column=0, sticky="w")
+        tk.Label(left_form, text="Mínimo:").grid(row=1, column=0, sticky="w")
+        self.entry_min = tk.Entry(left_form, **entry_style)
+        self.entry_min.grid(row=1, column=1, padx=5, pady=3, sticky="w")
+        tk.Label(left_form, text="Máximo:").grid(row=2, column=0, sticky="w")
+        self.entry_max = tk.Entry(left_form, **entry_style)
+        self.entry_max.grid(row=2, column=1, padx=5, pady=3, sticky="w")
+
+        # Formulario 2: Tiempo de atención (Fijo)
+        tk.Label(left_form, text="Tiempo de Atención (min):", **label_style).grid(row=3, column=0, sticky="w",
+                                                                                  pady=(10, 0))
+        self.entry_fijo = tk.Entry(left_form, **entry_style)
+        self.entry_fijo.grid(row=3, column=1, padx=5, pady=3, sticky="w")
+
+        # Columna derecha (Configuración de visualización)
+        right_form = tk.LabelFrame(form_columns, text="Configuración de Visualización", padx=15, pady=15)
+        right_form.grid(row=0, column=1, sticky="nsew", padx=5, pady=5)
+
+        # Formulario 3: Tiempo límite de simulación
+        tk.Label(right_form, text="Tiempo Límite (min):", **label_style).grid(row=0, column=0, sticky="w")
+        self.entry_tiempo_limite = tk.Entry(right_form, **entry_style)
+        self.entry_tiempo_limite.grid(row=0, column=1, padx=5, pady=3, sticky="w")
+
+        # Formulario 4: Iteraciones a mostrar
+        tk.Label(right_form, text="Iteraciones a Mostrar:", **label_style).grid(row=1, column=0, sticky="w",
+                                                                                pady=(10, 0))
+        tk.Label(right_form, text="Cantidad:").grid(row=2, column=0, sticky="w")
+        self.entry_iteraciones = tk.Entry(right_form, **entry_style)
+        self.entry_iteraciones.grid(row=2, column=1, padx=5, pady=3, sticky="w")
+        tk.Label(right_form, text="Hora desde (HH:MM):").grid(row=3, column=0, sticky="w")
+        self.entry_hora_desde = tk.Entry(right_form, **entry_style)
+        self.entry_hora_desde.grid(row=3, column=1, padx=5, pady=3, sticky="w")
+
+        # Configurar el peso de las filas y columnas para mejor distribución
+        for frame in [left_form, right_form]:
+            for i in range(10):  # Asegurar que hay suficientes filas
+                frame.rowconfigure(i, weight=1)
+            for i in range(2):  # Dos columnas
+                frame.columnconfigure(i, weight=1)
+
+        # --- Tabla ---
+        self.tabla = TablaPrincipal(main_container)
+        self.tabla.pack(fill="both", expand=True, padx=10, pady=5)
+
+        # --- Footer (Botones de control) ---
+        footer = tk.Frame(self.root, pady=10)
+        footer.pack(fill="x")
+
+    def cargar_datos_ejemplo(self):
+        # Mostrar los valores en consola
+        print("\n--- Valores del formulario ---")
+        print(f"Tiempo de llegada: {self.min_llegada} - {self.max_llegada} minutos")
+        print(f"Tiempo de atención: {self.tiempo_atencion} minutos")
+        print(f"Tiempo límite de simulación: {self.tiempo_limite} minutos")
+        print(f"Mostrar {self.iteraciones} iteraciones desde la hora: {self.hora_desde}")
+        print("------------------------------\n")
+
+        # Agregar una fila de ejemplo para el Cliente 1
+        self.tabla.add_fila([
+            "01:00",  # Reloj
+            "Llegada", "0.5", "01:00",  # Llegada de clientes
+            "1", "00:00", "Libre", "", "5",  # Fernando
+            "0.7", "3", "00:15",  # RND Tiempo lectura
+            "Atendido", "01:00", "01:15", "00:15"  # Datos del Cliente 1
+        ])
+
+        self.tabla.add_cliente_columna(
+            "Cliente 1",
+            ["Estado", "Hora Inicio", "Hora Fin", "Tiempo Lectura"]
+        )
+
+        self.tabla.add_fila([1, "01:00", 5, "Atendido", "Si", "01:00", "01:05", "00:05"])
+
+        self.tabla.add_cliente_columna(
+            "Cliente 2",
+            ["Estado", "Hora Inicio", "Hora Fin", "Tiempo Lectura"]
+        )
+
+        # Agregar otra fila de ejemplo
+        self.tabla.add_fila([
+            "01:10",  # Reloj
+            "Llegada", "0.3", "01:10",  # Llegada de clientes
+            "0", "00:10", "Ocupado", "01:25", "5",  # Fernando
+            "0.6", "2", "00:10",  # RND Tiempo lectura
+            "En espera", "", "", "",  # Datos del Cliente 1
+            "Atendido", "01:10", "01:20", "00:10"  # Datos del Cliente 2
+        ])
+
+        self.tabla.add_fila([1, "01:00", 5, "Atendido", "Si", "01:00", "01:05", "00:023", "00:05", 123, 123, 123, 43])
+        self.tabla.add_fila([1, "01:00", 5, "desatendido xd", "Si"])
+
+
+    def limpiar_tabla(self):
+        self.tabla.set_datos([])
+
+
+# --- Ejecutar aplicación ---
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = CafetinApp(root)
+    root.mainloop()
