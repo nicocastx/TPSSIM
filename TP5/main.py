@@ -158,7 +158,21 @@ class CafetinApp:
         footer = tk.Frame(self.root, pady=10)
         footer.pack(fill="x")
 
+    def validar_formulario(self):
+        # Obtener valores de los formularios
+        try:
+            self.min_llegada = float(self.entry_min.get() or 0)
+            self.max_llegada = float(self.entry_max.get() or 0)
+            self.tiempo_atencion = float(self.entry_fijo.get() or 0)
+            self.tiempo_limite = float(self.entry_tiempo_limite.get() or 0)
+            self.iteraciones = int(self.entry_iteraciones.get() or 0)
+            self.hora_desde = self.entry_hora_desde.get() or "00:00"
+        except ValueError:
+            print("Error: Por favor ingrese valores numéricos válidos")
+            return
+
     def cargar_datos_ejemplo(self):
+        self.validar_formulario()
         # Mostrar los valores en consola
         print("\n--- Valores del formulario ---")
         print(f"Tiempo de llegada: {self.min_llegada} - {self.max_llegada} minutos")
