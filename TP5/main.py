@@ -1,6 +1,7 @@
 import tkinter as tk
 
 from TP5.Objetos.LogicaPrincipal import LogicaPrincipal
+from TP5.enums.EnumEventos import EnumEventos
 
 # Elementos parametrizables
 # --- Formulario 1: Tiempo de llegada (Uniforme) ---
@@ -37,7 +38,6 @@ El vector de estado debe mostrar como mínimo la siguiente información:
 - estado  - otros atributos necesarios 
 - Variables auxiliares (acumuladores, contadores,...)
 
-
 """
 
 
@@ -45,13 +45,15 @@ from TP5.tabla.TablaPrincipal import TablaPrincipal
 
 
 class CafetinApp:
+
     def __init__(self, root):
-        #Logica principal
-        #self.logica = LogicaPrincipal()
 
         self.root = root
         self.root.title("Cafetin Literario - Grupo 14")
         self.root.minsize(1400, 600)  # Aumenté el tamaño mínimo de la ventana
+
+        # Componentes
+        self.logica = None
 
         # Valores predeterminados
         self.min_llegada = 0
@@ -59,7 +61,7 @@ class CafetinApp:
         self.tiempo_atencion = 0
         self.tiempo_limite = 0
         self.iteraciones = 0
-        self.hora_desde = "00:00"
+        self.hora_desde = 0
 
         # --- Contenedor principal ---
         main_container = tk.Frame(self.root, padx=20, pady=10)  # Aumenté el padding
@@ -181,39 +183,30 @@ class CafetinApp:
         print(f"Mostrar {self.iteraciones} iteraciones desde la hora: {self.hora_desde}")
         print("------------------------------\n")
 
-        # Agregar una fila de ejemplo para el Cliente 1
-        self.tabla.add_fila([
-            "01:00",  # Reloj
-            "Llegada", "0.5", "01:00",  # Llegada de clientes
-            "1", "00:00", "Libre", "", "5",  # Fernando
-            "0.7", "3", "00:15",  # RND Tiempo lectura
-            "Atendido", "01:00", "01:15", "00:15"  # Datos del Cliente 1
-        ])
-
-        self.tabla.add_cliente_columna(
-            "Cliente 1",
-            ["Estado", "Hora Inicio", "Hora Fin", "Tiempo Lectura"]
+        self.logica = LogicaPrincipal(
+            self.min_llegada,
+            self.max_llegada,
+            self.tiempo_atencion,
+            self.tiempo_limite,
+            self.iteraciones,
+            self.hora_desde
         )
+        """self.logica.eventoInicio()
+        print("------------------------------")
+        print(f"{self.logica.veNuevo}")
+        print(f"{self.logica.veUltimo}")
+        print(f"{self.logica.cadenaTabla}")
+        print("------------------------------")
+        self.logica.eventoLlegada()
+        print(f"{self.logica.veNuevo}")
+        print(f"{self.logica.veUltimo}")
+        print(f"{self.logica.cadenaTabla}")"""
+        self.logica.simular()
+        print(self.logica.cadenaTabla)
+        #todo ver como poronga agregar las columans de cada cliente
+        self.tabla.set_datos(self.logica.cadenaTabla)
 
-        self.tabla.add_fila([1, "01:00", 5, "Atendido", "Si", "01:00", "01:05", "00:05"])
 
-        self.tabla.add_cliente_columna(
-            "Cliente 2",
-            ["Estado", "Hora Inicio", "Hora Fin", "Tiempo Lectura"]
-        )
-
-        # Agregar otra fila de ejemplo
-        self.tabla.add_fila([
-            "01:10",  # Reloj
-            "Llegada", "0.3", "01:10",  # Llegada de clientes
-            "0", "00:10", "Ocupado", "01:25", "5",  # Fernando
-            "0.6", "2", "00:10",  # RND Tiempo lectura
-            "En espera", "", "", "",  # Datos del Cliente 1
-            "Atendido", "01:10", "01:20", "00:10"  # Datos del Cliente 2
-        ])
-
-        self.tabla.add_fila([1, "01:00", 5, "Atendido", "Si", "01:00", "01:05", "00:023", "00:05", 123, 123, 123, 43])
-        self.tabla.add_fila([1, "01:00", 5, "desatendido xd", "Si"])
 
 
     def limpiar_tabla(self):

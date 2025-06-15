@@ -31,9 +31,10 @@ class TablaPrincipal(tk.Frame):
         encabezados = [
             "Reloj",
             "Evento",
+            "Proximo evento",
             "RND Fernando",
             "Tiempo Llegada",
-            "Hora",
+            "Hora Llegada",
             "Cola Fernando",
             "Tiempo atencion",
             "Estado",
@@ -43,8 +44,8 @@ class TablaPrincipal(tk.Frame):
             "Q pag",
             "Tiempo de lectura",
             "Fin lectura",
-            "C Cliente",
-            "C clientes Retiran",
+            "Contador Clientes leyeron",
+            "Contador clientes Retiran",
             "TLP"
         ]
 
@@ -76,6 +77,7 @@ class TablaPrincipal(tk.Frame):
                 fila.append("")  # Rellenar con valor vacío si es necesario
         self.sheet.set_sheet_data(datos_actuales)
 
+    #posiblemente se quede corto para los 100000 filas, ver como plantear la muestra de clientes vhv
     def add_cliente_columna(self, nombre_principal, subcolumnas):
         """
         Crea un grupo de columnas con un encabezado principal que las abarca.
