@@ -94,7 +94,7 @@ class LogicaPrincipal:
         self.veNuevo.tiempoLlegada = valorUniforme
         self.veNuevo.horaLlegada = self.tiempoSimulacion + valorUniforme
 
-        if self.veNuevo.colaF == 0:
+        if self.veNuevo.colaF == 0 and self.veNuevo.estadoF == EnumEstadoFernando.LIBRE.value:
             self.veNuevo.llegadaSinColaFernando()
         else:
             self.veNuevo.colaF = self.veNuevo.colaF + 1
