@@ -24,6 +24,7 @@ class TablaPrincipal(tk.Frame):
             "undo"
         )
 
+
         self.sheet.grid(row=0, column=0, sticky="nswe")
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
@@ -40,7 +41,7 @@ class TablaPrincipal(tk.Frame):
             "Estado",
             "Hora Fin Atencion",
             "Mesas disponibles",
-            "RND Lectura",
+            "RND paginas",
             "Cantidad Paginas",
             "Tiempo de lectura",
             "Fin lectura",

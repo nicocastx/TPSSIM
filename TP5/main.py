@@ -53,7 +53,9 @@ class CafetinApp:
         self.root.minsize(1400, 600)  # Aumenté el tamaño mínimo de la ventana
 
         # Componentes
+        self.tabla = None
         self.logica = None
+        self.tablaUltimaIteracion = None
 
         # Valores predeterminados
         self.min_llegada = 0

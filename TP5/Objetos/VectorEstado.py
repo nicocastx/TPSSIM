@@ -5,8 +5,10 @@ from TP5.enums.EnumEventos import EnumEventos
 
 
 class VectorEstado:
-    def __init__(self, reloj=None, evento=None, proximoEvento=None, rndLlegada=None, tiempoLlegada=None, horaLlegada=None, colaF=None, tiempoF=None, estadoF=None,
-                 horaF=None, mesasDispL=None, rndLectura=None, cantPagLectura=None, tiempoLectura=None, horaLectura=None, contadorClienteLeido=None,
+    def __init__(self, reloj=None, evento=None, proximoEvento=None, rndLlegada=None, tiempoLlegada=None,
+                 horaLlegada=None, colaF=None, tiempoF=None, estadoF=None,
+                 horaF=None, mesasDispL=None, rndLectura=None, cantPagLectura=None, tiempoLectura=None,
+                 horaLectura=None, contadorClienteLeido=None,
                  contadorClienteRetirado=None, tlp=None):
         self.reloj = reloj
         self.evento = evento
@@ -28,9 +30,13 @@ class VectorEstado:
         self.tlp = tlp
         self.clientes = []
 
-        #parametros auxiliares
+        # Es necesario para saber cual es el siguiente cliente a ser atendido
+        self.colaClientes = []
+
+        # parametros auxiliares
         self.maximoTiempo = 0
 
+    # todo implementar revisando la lista de clientes
     def definirNuevoTiempoSimulacion(self):
         # Filtrar los valores que no son cero
         tiempos = [t for t in [self.horaLlegada, self.horaF, self.horaLectura] if t > 0]
@@ -39,11 +45,13 @@ class VectorEstado:
             self.maximoTiempo = 0
         else:
             self.maximoTiempo = min(tiempos)
+        self.definirProximoEvento()
         return self.maximoTiempo
 
+    # todo implementar revisando la lista de clientes
     def definirProximoEvento(self):
         if self.maximoTiempo == self.horaLlegada:
-            #todo tal vez se puede plantear en otro lado?
+            # todo tal vez se puede plantear en otro lado? lo plantee aca porque la condicion esta se cumple tanto para el inicio como llegada
             self.clientes.append(Cliente(EnumEstadoCliente.CREADO.value, 0, 0, 0))
             self.proximoEvento = EnumEventos.LLEGADA_CLIENTE.value
         elif self.maximoTiempo == self.horaF:
@@ -58,6 +66,29 @@ class VectorEstado:
             if i.estado == EnumEstadoCliente.CREADO.value:
                 i.estado = EnumEstadoCliente.EN_ATENCION.value
                 break
+
+    def llegadaConColaFernando(self):
+        self.colaF = self.colaF + 1
+        for pos,cliente in enumerate(self.clientes):
+            if cliente.estado == EnumEstadoCliente.CREADO.value:
+                self.colaClientes.append(pos)
+                cliente.estado = EnumEstadoCliente.ESPERA_ATENCION.value
+                break
+
+    def AquiNoTienenMesas(self):
+        for i in self.clientes:
+            if i.estado == EnumEstadoCliente.CREADO.value:
+                i.estado = EnumEstadoCliente.RETIRADO.value
+                break
+        self.contadorClienteRetirado = self.contadorClienteRetirado + 1
+
+    # todo deberia revisar si hay cola y si hay mesas libres
+    def finAtencionFernandoConCola(self):
+        pass
+
+
+    def TocoLeer(self):
+        pass
 
     def formatoFila(self):
         fila = [
