@@ -191,25 +191,14 @@ class CafetinApp:
             self.iteraciones,
             self.hora_desde
         )
-        """self.logica.eventoInicio()
-        print("------------------------------")
-        print(f"{self.logica.veNuevo}")
-        print(f"{self.logica.veUltimo}")
-        print(f"{self.logica.cadenaTabla}")
-        print("------------------------------")
-        self.logica.eventoLlegada()
-        print(f"{self.logica.veNuevo}")
-        print(f"{self.logica.veUltimo}")
-        print(f"{self.logica.cadenaTabla}")"""
         self.logica.simular()
         print(self.logica.cadenaTabla)
-        #todo ver como poronga agregar las columans de cada cliente
         self.tabla.set_datos(self.logica.cadenaTabla)
 
-
-
-
+    #Limpio la tabla de datos
     def limpiar_tabla(self):
+        # Reinicio Componentes
+        self.logica = None
         self.tabla.set_datos([])
 
 

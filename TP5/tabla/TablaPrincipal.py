@@ -38,21 +38,54 @@ class TablaPrincipal(tk.Frame):
             "Cola Fernando",
             "Tiempo atencion",
             "Estado",
-            "HoraFin At",
+            "Hora Fin Atencion",
             "Mesas disponibles",
             "RND Lectura",
-            "Q pag",
+            "Cantidad Paginas",
             "Tiempo de lectura",
             "Fin lectura",
             "Contador Clientes leyeron",
             "Contador clientes Retiran",
-            "TLP"
+            "Tiempo lectura promedio"
         ]
 
         self.sheet.headers(encabezados)
 
     def set_datos(self, data):
+        if not data:
+            # Limpiar la tabla de manera segura
+            current_headers = self.sheet.headers()
+            self.sheet.set_sheet_data([["" for _ in current_headers]])
+            self.sheet.set_sheet_data([])
+            return
+            
+        # Encontrar el número máximo de columnas en los datos
+        max_columns = max(len(row) for row in data) if data else 0
+
+        # Si no hay suficientes columnas para los clientes, agregar las que faltan
+        if max_columns > len(self.sheet.headers()):
+            # Calcular cuántos clientes nuevos hay
+            num_clientes = (max_columns - 18) // 4  # 18 columnas fijas iniciales
+
+            # Agregar columnas para los clientes que faltan
+            for i in range(len(self.sheet.headers()) - 17, num_clientes + 1):  # +1 porque i empieza en 1
+                if i > 0:  # Evitar cliente 0
+                    self.add_cliente_columna(f"Cliente {i}", ["Estado", "Inicio", "Fin Lectura", "Tiempo lectura"])
+
+        # Asegurarse de que todas las filas tengan el mismo número de columnas
+        headers_count = len(self.sheet.headers())
+        for row in data:
+            while len(row) < headers_count:
+                row.append("")  # Rellenar con cadenas vacías
+
+            # Truncar filas que tengan más columnas que los encabezados
+            row = row[:headers_count]
+
+        # Configurar los datos
         self.sheet.set_sheet_data(data)
+        
+        # Asegurarse de que la tabla se redibuje correctamente
+        self.sheet.refresh()
 
     def get_sheet(self):
         return self.sheet

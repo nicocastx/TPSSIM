@@ -32,7 +32,13 @@ class VectorEstado:
         self.maximoTiempo = 0
 
     def definirNuevoTiempoSimulacion(self):
-        self.maximoTiempo = max(self.horaLlegada, self.horaF, self.horaLectura)
+        # Filtrar los valores que no son cero
+        tiempos = [t for t in [self.horaLlegada, self.horaF, self.horaLectura] if t > 0]
+        # Si no hay tiempos válidos, retornar 0
+        if not tiempos:
+            self.maximoTiempo = 0
+        else:
+            self.maximoTiempo = min(tiempos)
         return self.maximoTiempo
 
     def definirProximoEvento(self):
