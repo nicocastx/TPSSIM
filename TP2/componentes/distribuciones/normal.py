@@ -37,7 +37,6 @@ class Ventana_Normal:
             messagebox.showerror("Error", "Todos los campos deben contener valores numéricos válidos.")
             return
 
-        # Si está todo bien, pasamos a la lógica
         TablaNormal(self.root, intervalos, n, mu, sigma)
         print("n:",n,"mu:",mu,"sigma:",sigma,"intervalos:", intervalos)
 

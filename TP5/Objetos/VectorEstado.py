@@ -16,7 +16,7 @@ class VectorEstado:
         self.rndLlegada = rndLlegada
         self.tiempoLlegada = tiempoLlegada
         self.horaLlegada = horaLlegada
-        #todo podria haber usado el len(colaClientes xd)
+        # todo podria haber usado el len(colaClientes xd)
         self.colaF = colaF
         self.tiempoF = tiempoF
         self.estadoF = estadoF
@@ -37,10 +37,11 @@ class VectorEstado:
         # parametros auxiliares
         self.maximoTiempo = 0
 
-    # todo implementar revisando la lista de clientes
+    # todo implementar revisando la lista de clientes, actualmente no anda por eso
     def definirNuevoTiempoSimulacion(self):
         # Filtrar los valores que no son cero
         tiempos = [t for t in [self.horaLlegada, self.horaF, self.horaLectura] if t > 0]
+
         # Si no hay tiempos válidos, retornar 0
         if not tiempos:
             self.maximoTiempo = 0
@@ -52,7 +53,7 @@ class VectorEstado:
     # todo implementar revisando la lista de clientes
     def definirProximoEvento(self):
         if self.maximoTiempo == self.horaLlegada:
-            #lo plantee aca porque la condicion esta se cumple tanto para el inicio como llegada
+            # lo plantee aca porque la condicion esta se cumple tanto para el inicio como llegada
             self.clientes.append(Cliente(EnumEstadoCliente.CREADO.value, 0, 0, 0))
             self.proximoEvento = EnumEventos.LLEGADA_CLIENTE.value
         elif self.maximoTiempo == self.horaF:
@@ -69,7 +70,7 @@ class VectorEstado:
 
     def llegadaConColaFernando(self):
         self.colaF = self.colaF + 1
-        for pos,cliente in enumerate(self.clientes):
+        for pos, cliente in enumerate(self.clientes):
             if cliente.estado == EnumEstadoCliente.CREADO.value:
                 self.colaClientes.append(pos)
                 cliente.estado = EnumEstadoCliente.ESPERA_ATENCION.value
@@ -91,27 +92,26 @@ class VectorEstado:
             self.estadoF = EnumEstadoFernando.LIBRE.value
             self.colaClientes = []
             return
+
         self.colaF = self.colaF - 1
+        print(self.colaClientes)
         idx_cliente = self.colaClientes.pop(0)
         self.clientes[idx_cliente].estado = EnumEstadoCliente.EN_ATENCION.value
         self.labureFernando()
 
-
-
     def tocoLeer(self):
         for i in self.clientes:
-            #todo el primer cliente de "en atencion" deberia ser el primero que se atendio... creo
+            # todo el primer cliente de "en atencion" deberia ser el primero que se atendio... creo
             if i.estado == EnumEstadoCliente.EN_ATENCION.value:
                 i.estado = EnumEstadoCliente.SENTADO_MESA.value
                 self.mesasDispL = self.mesasDispL - 1
                 i.horaInicio = self.reloj
                 i.horaFin = self.horaLectura
-                #todo sin importar el evento... esa mierda de atributo se tiene que actualizar... carajo
+                # todo sin importar el evento... esa mierda de atributo se tiene que actualizar... carajo
                 # self.reloj - i.horaInicio
                 i.tiempoLectura = 0
                 self.contadorClienteLeido = self.contadorClienteLeido + 1
                 break
-
 
     def formatoFila(self):
         fila = [

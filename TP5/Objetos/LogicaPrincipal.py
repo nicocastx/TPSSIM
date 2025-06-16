@@ -60,6 +60,7 @@ class LogicaPrincipal:
             self.veUltimo = self.veNuevo
 
             self.rellenarTabla()
+
         self.cadenaTabla.append(self.veUltimo.formatoFila())
 
 
@@ -123,20 +124,22 @@ class LogicaPrincipal:
         self.veNuevo.rndLlegada = 0
         self.veNuevo.tiempoLlegada = 0
 
+        # Calculo de tiempo lectura
+        self.veNuevo.rndLectura = round(random.random(), 2)
+        self.veNuevo.cantPagLectura = self.calcularUniforme(self.veNuevo.rndLectura, self.limitesCantPaginas[0], self.limitesCantPaginas[1])
+        # todo implementar calculo tiempo lectura Euler, no implemente esto en VE porque no se como quedara con el euler implementado
+        self.veNuevo.tiempoLectura = self.tiempoLecturaPagina * self.veNuevo.cantPagLectura
+        self.veNuevo.horaLectura = self.veNuevo.tiempoLectura + self.veNuevo.reloj
+
+        # Cambio estado cliente
+        self.veNuevo.tocoLeer()
+
         if self.veNuevo.colaF == 0:
             self.veNuevo.estadoF = EnumEstadoFernando.LIBRE.value
         else:
             self.veNuevo.finAtencionFernandoConCola()
 
-        #Calculo de tiempo lectura
-        self.veNuevo.rndLectura = round(random.random(), 2)
-        self.veNuevo.cantPagLectura = self.calcularUniforme(self.veNuevo.rndLectura, self.limitesCantPaginas[0], self.limitesCantPaginas[1])
-        #todo implementar calculo tiempo lectura Euler, no implemente esto en VE porque no se como quedara con el euler implementado
-        self.veNuevo.tiempoLectura = self.tiempoLecturaPagina * self.veNuevo.cantPagLectura
-        self.veNuevo.horaLectura = self.veNuevo.tiempoLectura + self.veNuevo.reloj
 
-        #Cambio estado cliente
-        self.veNuevo.tocoLeer()
 
 
     # todo implementar
