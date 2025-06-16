@@ -11,16 +11,17 @@ class LogicaPrincipal:
         #Parametros desde interfaz
         self.limInfLlegada = 1#limInfLlegada
         self.limSupLlegada = 10#limSupLlegada
-        self.tiempoFernando = 1000#tiempoFernando
+        self.tiempoFernando = 15#tiempoFernando
         self.tiempo_limite = 1000#tiempo_limite
         self.cantIteracionesMostrar = 2#cantIteracionesMostrar
         self.hora_desde = 500#hora_desde
 
         # Parametros de la simulacion
+        self.mesasDisponibles = 10
         self.veUltimo = VectorEstado()
         self.veNuevo = VectorEstado()
         self.cadenaTabla = []
-        self.mesasDisponibles = 0
+
 
         #tiempo de lectura
         self.tiempoLecturaPagina = 3
@@ -106,7 +107,7 @@ class LogicaPrincipal:
         if self.veNuevo.colaF == 0 and self.veNuevo.estadoF == EnumEstadoFernando.LIBRE.value and self.veNuevo.mesasDispL > 0:
             self.veNuevo.llegadaSinColaFernando()
         elif self.veNuevo.mesasDispL == 0:
-            self.veNuevo.AquiNoTienenMesas()
+            self.veNuevo.aquiNoTienenMesas()
         else:
             self.veNuevo.llegadaConColaFernando()
 
@@ -135,7 +136,7 @@ class LogicaPrincipal:
         self.veNuevo.tiempoFinLectura = self.tiempoLecturaPagina * self.veNuevo.cantPagLectura
 
         #Cambio estado cliente
-        self.veNuevo.TocoLeer()
+        self.veNuevo.tocoLeer()
 
 
     # todo implementar

@@ -51,7 +51,7 @@ class VectorEstado:
     # todo implementar revisando la lista de clientes
     def definirProximoEvento(self):
         if self.maximoTiempo == self.horaLlegada:
-            # todo tal vez se puede plantear en otro lado? lo plantee aca porque la condicion esta se cumple tanto para el inicio como llegada
+            #lo plantee aca porque la condicion esta se cumple tanto para el inicio como llegada
             self.clientes.append(Cliente(EnumEstadoCliente.CREADO.value, 0, 0, 0))
             self.proximoEvento = EnumEventos.LLEGADA_CLIENTE.value
         elif self.maximoTiempo == self.horaF:
@@ -60,8 +60,7 @@ class VectorEstado:
             self.proximoEvento = EnumEventos.FIN_LECTURA.value
 
     def llegadaSinColaFernando(self):
-        self.estadoF = EnumEstadoFernando.OCUPADO.value
-        self.horaF = self.reloj + self.tiempoF
+        self.labureFernando()
         for i in self.clientes:
             if i.estado == EnumEstadoCliente.CREADO.value:
                 i.estado = EnumEstadoCliente.EN_ATENCION.value
@@ -75,20 +74,34 @@ class VectorEstado:
                 cliente.estado = EnumEstadoCliente.ESPERA_ATENCION.value
                 break
 
-    def AquiNoTienenMesas(self):
+    def aquiNoTienenMesas(self):
         for i in self.clientes:
             if i.estado == EnumEstadoCliente.CREADO.value:
                 i.estado = EnumEstadoCliente.RETIRADO.value
                 break
         self.contadorClienteRetirado = self.contadorClienteRetirado + 1
 
-    # todo deberia revisar si hay cola y si hay mesas libres
+    # revisa si hay cola y si hay mesas libres, si no hay mesas, se van todos al carajo
     def finAtencionFernandoConCola(self):
-        pass
+        if self.mesasDispL == 0:
+            for i in self.colaClientes:
+                self.clientes[i].estado = EnumEstadoCliente.RETIRADO.value
+                self.contadorClienteRetirado = self.contadorClienteRetirado + 1
+            self.estadoF = EnumEstadoFernando.LIBRE.value
+            self.colaClientes = []
+            return
+        idx_cliente = self.colaClientes.pop(0)
+        self.clientes[idx_cliente].estado = EnumEstadoCliente.EN_ATENCION.value
+        self.labureFernando()
 
 
-    def TocoLeer(self):
-        pass
+
+    def tocoLeer(self):
+        for i in self.clientes:
+            #todo el primer cliente de "en atencion" deberia ser el primero que se atendio... creo
+            if i.estado == EnumEstadoCliente.EN_ATENCION.value:
+                i.estado = EnumEstadoCliente.EN_LECTURA.value
+                break
 
     def formatoFila(self):
         fila = [
@@ -122,6 +135,10 @@ class VectorEstado:
             ])
 
         return fila
+
+    def labureFernando(self):
+        self.estadoF = EnumEstadoFernando.OCUPADO.value
+        self.horaF = self.reloj + self.tiempoF
 
     def __str__(self):
         return (
