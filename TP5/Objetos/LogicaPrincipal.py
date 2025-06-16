@@ -12,12 +12,13 @@ class LogicaPrincipal:
         self.limInfLlegada = 1#limInfLlegada
         self.limSupLlegada = 10#limSupLlegada
         self.tiempoFernando = 15#tiempoFernando
-        self.tiempo_limite = 1000#tiempo_limite
-        self.cantIteracionesMostrar = 2#cantIteracionesMostrar
-        self.hora_desde = 500#hora_desde
+        self.tiempo_limite = 30#tiempo_limite
+        self.cantIteracionesMostrar = 0#cantIteracionesMostrar
+        self.hora_desde = 0#hora_desde
 
         # Parametros de la simulacion
         self.mesasDisponibles = 10
+        self.limitesCantPaginas = [10, 40]
         self.veUltimo = VectorEstado()
         self.veNuevo = VectorEstado()
         self.cadenaTabla = []
@@ -32,6 +33,7 @@ class LogicaPrincipal:
 
     def simular(self):
         while self.tiempoSimulacion < self.tiempo_limite:
+            self.veNuevo.evento = self.veUltimo.proximoEvento
             #se podria optimizar pero me dio mucha paja xd
             if self.tiempoSimulacion == 0:
                 self.eventoInicio()
@@ -44,17 +46,16 @@ class LogicaPrincipal:
             elif self.tiempoSimulacion > 0 and self.veUltimo.proximoEvento == EnumEventos.FIN_ATENCION.value:
                 print("Un fin de atencion")
                 print("tiempo antes de procesar evento: " + str(self.tiempoSimulacion))
-                #self.eventoFinAtencion()
-                self.tiempoSimulacion = self.tiempo_limite
-                break
+                self.eventoFinAtencion()
             elif self.tiempoSimulacion > 0 and self.veUltimo.proximoEvento == EnumEventos.FIN_LECTURA.value:
                 print("Un fin de lectura")
                 print("tiempo antes de procesar evento: " + str(self.tiempoSimulacion))
                 self.eventoFinLectura()
+                self.tiempoSimulacion = self.tiempo_limite
+                break
 
             self.tiempoSimulacion = self.veNuevo.definirNuevoTiempoSimulacion()
             print("tiempo despues de procesar evento: " + str(self.tiempoSimulacion))
-
 
             self.veUltimo = self.veNuevo
 
@@ -95,9 +96,6 @@ class LogicaPrincipal:
     y mas giladas que me olvide
     """
     def eventoLlegada(self):
-        #todo si se repite mucho, abstraer, tambien esta en fin atencion
-        self.veNuevo.evento = self.veUltimo.proximoEvento
-
         rndLlegada = round(random.random(), 2)
         valorUniforme = self.calcularUniforme(rndLlegada, self.limInfLlegada, self.limSupLlegada)
         self.veNuevo.rndLlegada = rndLlegada
@@ -121,6 +119,7 @@ class LogicaPrincipal:
     5) cambiar estado cliente a sentado en mesa
     """
     def eventoFinAtencion(self):
+        #todo ocurre lo mismo con fin atencion y lectura, podria hacer metodo resetearRandoms() algo asi para el nuevo VE
         self.veNuevo.rndLlegada = 0
         self.veNuevo.tiempoLlegada = 0
 
@@ -131,9 +130,10 @@ class LogicaPrincipal:
 
         #Calculo de tiempo lectura
         self.veNuevo.rndLectura = round(random.random(), 2)
-        self.veNuevo.cantPagLectura = self.calcularUniforme(self.veNuevo.rndLectura, 10, 40)
-        #todo implementar calculo tiempo lectura Euler
-        self.veNuevo.tiempoFinLectura = self.tiempoLecturaPagina * self.veNuevo.cantPagLectura
+        self.veNuevo.cantPagLectura = self.calcularUniforme(self.veNuevo.rndLectura, self.limitesCantPaginas[0], self.limitesCantPaginas[1])
+        #todo implementar calculo tiempo lectura Euler, no implemente esto en VE porque no se como quedara con el euler implementado
+        self.veNuevo.tiempoLectura = self.tiempoLecturaPagina * self.veNuevo.cantPagLectura
+        self.veNuevo.horaLectura = self.veNuevo.tiempoLectura + self.veNuevo.reloj
 
         #Cambio estado cliente
         self.veNuevo.tocoLeer()

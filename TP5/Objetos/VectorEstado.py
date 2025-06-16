@@ -16,6 +16,7 @@ class VectorEstado:
         self.rndLlegada = rndLlegada
         self.tiempoLlegada = tiempoLlegada
         self.horaLlegada = horaLlegada
+        #todo podria haber usado el len(colaClientes xd)
         self.colaF = colaF
         self.tiempoF = tiempoF
         self.estadoF = estadoF
@@ -90,6 +91,7 @@ class VectorEstado:
             self.estadoF = EnumEstadoFernando.LIBRE.value
             self.colaClientes = []
             return
+        self.colaF = self.colaF - 1
         idx_cliente = self.colaClientes.pop(0)
         self.clientes[idx_cliente].estado = EnumEstadoCliente.EN_ATENCION.value
         self.labureFernando()
@@ -100,8 +102,15 @@ class VectorEstado:
         for i in self.clientes:
             #todo el primer cliente de "en atencion" deberia ser el primero que se atendio... creo
             if i.estado == EnumEstadoCliente.EN_ATENCION.value:
-                i.estado = EnumEstadoCliente.EN_LECTURA.value
+                i.estado = EnumEstadoCliente.SENTADO_MESA.value
+                i.horaInicio = self.reloj
+                i.horaFin = self.horaLectura
+                #todo sin importar el evento... esa mierda de atributo se tiene que actualizar... carajo
+                # self.reloj - i.horaInicio
+                i.tiempoLectura = 0
+                self.contadorClienteLeido = self.contadorClienteLeido + 1
                 break
+
 
     def formatoFila(self):
         fila = [
