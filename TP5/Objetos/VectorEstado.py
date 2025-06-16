@@ -103,6 +103,7 @@ class VectorEstado:
             #todo el primer cliente de "en atencion" deberia ser el primero que se atendio... creo
             if i.estado == EnumEstadoCliente.EN_ATENCION.value:
                 i.estado = EnumEstadoCliente.SENTADO_MESA.value
+                self.mesasDispL = self.mesasDispL - 1
                 i.horaInicio = self.reloj
                 i.horaFin = self.horaLectura
                 #todo sin importar el evento... esa mierda de atributo se tiene que actualizar... carajo

@@ -12,7 +12,7 @@ class LogicaPrincipal:
         self.limInfLlegada = 1#limInfLlegada
         self.limSupLlegada = 10#limSupLlegada
         self.tiempoFernando = 15#tiempoFernando
-        self.tiempo_limite = 30#tiempo_limite
+        self.tiempo_limite = 300#tiempo_limite
         self.cantIteracionesMostrar = 0#cantIteracionesMostrar
         self.hora_desde = 0#hora_desde
 
