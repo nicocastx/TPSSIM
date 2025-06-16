@@ -110,7 +110,7 @@ class LogicaPrincipal:
         else:
             self.veNuevo.llegadaConColaFernando()
 
-    #todo implementar, y ver de como implementar aqui el Euler
+    #todo implementar, y ver de como implementar aqui el Euler, actualmente no anda porque falta la logica de maximo tiempo y definir siguiente evento
     """"
     Deberia:
     1) Calcular el rnd de lectura
