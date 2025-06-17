@@ -90,6 +90,7 @@ class VectorEstado:
                 self.clientes[i].estado = EnumEstadoCliente.RETIRADO.value
                 self.contadorClienteRetirado = self.contadorClienteRetirado + 1
             self.estadoF = EnumEstadoFernando.LIBRE.value
+            self.horaF = 0
             self.colaClientes = []
             return
 
