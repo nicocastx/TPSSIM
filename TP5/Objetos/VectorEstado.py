@@ -94,7 +94,6 @@ class VectorEstado:
             return
 
         self.colaF = self.colaF - 1
-        print(self.colaClientes)
         idx_cliente = self.colaClientes.pop(0)
         self.clientes[idx_cliente].estado = EnumEstadoCliente.EN_ATENCION.value
         self.labureFernando()

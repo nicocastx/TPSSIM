@@ -12,7 +12,7 @@ class LogicaPrincipal:
         self.limInfLlegada = 1#limInfLlegada
         self.limSupLlegada = 10#limSupLlegada
         self.tiempoFernando = 15#tiempoFernando
-        self.tiempo_limite = 300#tiempo_limite
+        self.tiempo_limite = 80#tiempo_limite
         self.cantIteracionesMostrar = 0#cantIteracionesMostrar
         self.hora_desde = 0#hora_desde
 
@@ -34,12 +34,12 @@ class LogicaPrincipal:
     def simular(self):
         while self.tiempoSimulacion < self.tiempo_limite:
             self.veNuevo.evento = self.veUltimo.proximoEvento
+            self.veNuevo.reloj = self.tiempoSimulacion
             #se podria optimizar pero me dio mucha paja xd
             if self.tiempoSimulacion == 0:
                 self.eventoInicio()
             elif self.tiempoSimulacion > 0 and self.veUltimo.proximoEvento == EnumEventos.LLEGADA_CLIENTE.value:
                 #esta linea si se repite mucho podria ir arriba del primer if
-                self.veNuevo.reloj = self.tiempoSimulacion
                 print("Una llegada")
                 print("tiempo antes de procesar evento: " + str(self.tiempoSimulacion))
                 self.eventoLlegada()
@@ -101,7 +101,7 @@ class LogicaPrincipal:
         valorUniforme = self.calcularUniforme(rndLlegada, self.limInfLlegada, self.limSupLlegada)
         self.veNuevo.rndLlegada = rndLlegada
         self.veNuevo.tiempoLlegada = valorUniforme
-        self.veNuevo.horaLlegada = self.tiempoSimulacion + valorUniforme
+        self.veNuevo.horaLlegada = self.veNuevo.reloj + valorUniforme
 
         if self.veNuevo.colaF == 0 and self.veNuevo.estadoF == EnumEstadoFernando.LIBRE.value and self.veNuevo.mesasDispL > 0:
             self.veNuevo.llegadaSinColaFernando()

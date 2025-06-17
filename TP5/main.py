@@ -55,7 +55,6 @@ class CafetinApp:
         # Componentes
         self.tabla = None
         self.logica = None
-        self.tablaUltimaIteracion = None
 
         # Valores predeterminados
         self.min_llegada = 0
@@ -170,7 +169,7 @@ class CafetinApp:
             self.tiempo_atencion = float(self.entry_fijo.get() or 0)
             self.tiempo_limite = float(self.entry_tiempo_limite.get() or 0)
             self.iteraciones = int(self.entry_iteraciones.get() or 0)
-            self.hora_desde = self.entry_hora_desde.get() or "00:00"
+            self.hora_desde = self.entry_hora_desde.get() or 0
         except ValueError:
             print("Error: Por favor ingrese valores numéricos válidos")
             return
