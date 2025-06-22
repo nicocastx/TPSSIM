@@ -1,5 +1,6 @@
 import random
-import pandas as pd
+
+from openpyxl import Workbook
 
 from TP5.Objetos.VectorEstado import VectorEstado
 from TP5.enums.EnumEstadoFernando import EnumEstadoFernando
@@ -38,8 +39,21 @@ class LogicaPrincipal:
         self.tiempoSimulacion = self.hora_desde
         self.cantIteraciones = 0
 
+        self.wb = Workbook()
+        self.ws1 = self.wb.active
+        self.ws1.title = "euler.xslx"  # Renombrar la hoja
+
+        # 3. Escribir datos en celdas específicas
+        self.ws1['A1'] = "x"
+        self.ws1['B1'] = "y"
+        self.ws1['C1'] = "f"
+        self.ws1['D1'] = "x+1"
+        self.ws1['E1'] = "y+1"
+
+
 
     def simular(self):
+
         while self.tiempoSimulacion < self.tiempo_limite:
             self.veNuevo.evento = self.veUltimo.proximoEvento
             self.veNuevo.reloj = self.tiempoSimulacion
@@ -137,7 +151,7 @@ class LogicaPrincipal:
         self.veNuevo.cantPagLectura = self.calcularUniforme(self.veNuevo.rndLectura, self.limitesCantPaginas[0], self.limitesCantPaginas[1])
         # todo implementar calculo tiempo lectura Euler, no implemente esto en VE porque no se como quedara con el euler implementado
         self.veNuevo.k = self.calcular_k()
-        self.veNuevo.tiempoLectura = self.ejecutar_simulacion_euler_dy_dx_k_sobre_5(self.veNuevo.k, self.step, self.veNuevo.cantPagLectura)
+        self.veNuevo.tiempoLectura = self.ejecutar_simulacion_euler_dy_dx_k_sobre_5(self.veNuevo.k, self.step, self.veNuevo.cantPagLectura, self.ws1)
         self.veNuevo.horaLectura = self.veNuevo.tiempoLectura + self.veNuevo.reloj
 
         # Cambio estado cliente
@@ -167,10 +181,10 @@ class LogicaPrincipal:
     def calcular_tiempo_lectura(self, k, h):
         return 190
 
-    def ejecutar_simulacion_euler_dy_dx_k_sobre_5(self, k, h, p):
-        xm_buscada = 0
+    def ejecutar_simulacion_euler_dy_dx_k_sobre_5(self, k, h, p, sheet):
 
-        print("VALORES PREVIO AL CALCULO", str(k), str(h), str(p))
+        titulos = ["X", "Y", "F", "X+1", "Y+1"]
+        sheet.append(titulos)
 
         xm_mas_u = 0
         ym_mas_u = 0
@@ -184,6 +198,7 @@ class LogicaPrincipal:
             xm_mas_u = xm + h
             ym_mas_u = ym + h * f
             fila_previa = [xm, ym, f, xm_mas_u, ym_mas_u]
+            sheet.append(fila_previa)
 
-
+        self.wb.save("euler.xlsx")
         return round(fila_previa[0] * 10, 2)

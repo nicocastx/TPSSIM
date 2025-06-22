@@ -1,4 +1,6 @@
 import tkinter as tk
+import openpyxl
+from openpyxl import Workbook
 
 from TP5.Objetos.LogicaPrincipal import LogicaPrincipal
 from TP5.enums.EnumEventos import EnumEventos
