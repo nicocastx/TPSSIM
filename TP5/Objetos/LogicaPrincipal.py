@@ -1,4 +1,5 @@
 import random
+import pandas as pd
 
 from TP5.Objetos.VectorEstado import VectorEstado
 from TP5.enums.EnumEstadoFernando import EnumEstadoFernando
@@ -8,7 +9,7 @@ from TP5.enums.EnumEventos import EnumEventos
 class LogicaPrincipal:
 
     def __init__(self, limInfLlegada, limSupLlegada, tiempoFernando, tiempo_limite, cantIteracionesMostrar, hora_desde,
-                 k_primer, k_segundo, k_tercero):
+                 k_primer, k_segundo, k_tercero, step):
         #Parametros desde interfaz
         self.limInfLlegada = limInfLlegada#limInfLlegada
         self.limSupLlegada = limSupLlegada#limSupLlegada
@@ -17,7 +18,7 @@ class LogicaPrincipal:
         self.cantIteracionesMostrar = cantIteracionesMostrar#cantIteracionesMostrar
         #todo: pasar a minutos hora desde
         self.hora_desde = 0#hora_desde
-
+        self.step = step
 
         # Parametros de la simulacion
         self.mesasDisponibles = 10
@@ -136,7 +137,7 @@ class LogicaPrincipal:
         self.veNuevo.cantPagLectura = self.calcularUniforme(self.veNuevo.rndLectura, self.limitesCantPaginas[0], self.limitesCantPaginas[1])
         # todo implementar calculo tiempo lectura Euler, no implemente esto en VE porque no se como quedara con el euler implementado
         self.veNuevo.k = self.calcular_k()
-        self.veNuevo.tiempoLectura = self.calcular_tiempo_lectura(self.veNuevo.k)
+        self.veNuevo.tiempoLectura = self.ejecutar_simulacion_euler_dy_dx_k_sobre_5(self.veNuevo.k, self.step, self.veNuevo.cantPagLectura)
         self.veNuevo.horaLectura = self.veNuevo.tiempoLectura + self.veNuevo.reloj
 
         # Cambio estado cliente
@@ -163,5 +164,26 @@ class LogicaPrincipal:
         else:
             return self.k_tercer_intervalo
 
-    def calcular_tiempo_lectura(self, k):
+    def calcular_tiempo_lectura(self, k, h):
         return 190
+
+    def ejecutar_simulacion_euler_dy_dx_k_sobre_5(self, k, h, p):
+        xm_buscada = 0
+
+        print("VALORES PREVIO AL CALCULO", str(k), str(h), str(p))
+
+        xm_mas_u = 0
+        ym_mas_u = 0
+        fila_previa = [0, 0, 0, xm_mas_u, ym_mas_u]
+
+        while fila_previa[1] <= p:
+
+            xm = fila_previa[3]
+            ym = fila_previa[4]
+            f = k / 5
+            xm_mas_u = xm + h
+            ym_mas_u = ym + h * f
+            fila_previa = [xm, ym, f, xm_mas_u, ym_mas_u]
+
+
+        return round(fila_previa[0] * 10, 2)

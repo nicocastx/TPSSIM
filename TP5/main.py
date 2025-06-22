@@ -66,6 +66,7 @@ class CafetinApp:
         self.k_primer_intervalo = 0
         self.k_segundo_intervalo = 0
         self.k_tercer_intervalo = 0
+        self.step = 0
 
         # --- Contenedor principal ---
         main_container = tk.Frame(self.root, padx=20, pady=10)  # Aumenté el padding
@@ -143,6 +144,11 @@ class CafetinApp:
         self.entry_third_interval = tk.Entry(left_form, **entry_style)
         self.entry_third_interval.grid(row=9, column=1, padx=5, pady=3, sticky="w")
 
+        # Formulario 4: H para paso de integración
+        tk.Label(left_form, text="Paso de ingegración (h):", **label_style).grid(row=10, column=0, sticky="w")
+        tk.Label(left_form, text="Paso de integración:").grid(row=11, column=0, sticky="w")
+        self.step = tk.Entry(left_form, **entry_style)
+        self.step.grid(row=11, column=1, padx=5, pady=3, sticky="w")
 
         # Columna derecha (Configuración de visualización)
         right_form = tk.LabelFrame(form_columns, text="Configuración de Visualización", padx=15, pady=15)
@@ -190,6 +196,7 @@ class CafetinApp:
             self.k_primer_intervalo = float(self.entry_first_interval.get() or 0)
             self.k_segundo_intervalo = float(self.entry_second_interval.get() or 0)
             self.k_tercer_intervalo = float(self.entry_third_interval.get() or 0)
+            self.step = float(self.step.get() or 0)
 
 
 
@@ -216,7 +223,8 @@ class CafetinApp:
             self.hora_desde,
             self.k_primer_intervalo,
             self.k_segundo_intervalo,
-            self.k_tercer_intervalo
+            self.k_tercer_intervalo,
+            self.step
         )
         self.logica.simular()
         print(self.logica.cadenaTabla)
