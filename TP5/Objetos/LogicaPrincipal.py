@@ -7,7 +7,8 @@ from TP5.enums.EnumEventos import EnumEventos
 
 class LogicaPrincipal:
 
-    def __init__(self, limInfLlegada, limSupLlegada, tiempoFernando, tiempo_limite, cantIteracionesMostrar, hora_desde):
+    def __init__(self, limInfLlegada, limSupLlegada, tiempoFernando, tiempo_limite, cantIteracionesMostrar, hora_desde,
+                 k_primer, k_segundo, k_tercero):
         #Parametros desde interfaz
         self.limInfLlegada = 1#limInfLlegada
         self.limSupLlegada = 10#limSupLlegada
@@ -25,7 +26,11 @@ class LogicaPrincipal:
 
 
         #tiempo de lectura
-        self.tiempoLecturaPagina = 3
+        self.k_primer_intervalo = k_primer
+        self.k_segundo_intervalo = k_segundo
+        self.k_tercer_intervalo = k_tercero
+
+        # self.tiempoLecturaPagina = 3
 
         self.tiempoSimulacion = 0
         self.cantIteraciones = 0
@@ -128,7 +133,8 @@ class LogicaPrincipal:
         self.veNuevo.rndLectura = round(random.random(), 2)
         self.veNuevo.cantPagLectura = self.calcularUniforme(self.veNuevo.rndLectura, self.limitesCantPaginas[0], self.limitesCantPaginas[1])
         # todo implementar calculo tiempo lectura Euler, no implemente esto en VE porque no se como quedara con el euler implementado
-        self.veNuevo.tiempoLectura = self.tiempoLecturaPagina * self.veNuevo.cantPagLectura
+        self.veNuevo.k = self.calcular_k()
+        self.veNuevo.tiempoLectura = self.veNuevo.k / 5 * 10
         self.veNuevo.horaLectura = self.veNuevo.tiempoLectura + self.veNuevo.reloj
 
         # Cambio estado cliente
@@ -145,3 +151,12 @@ class LogicaPrincipal:
     # todo implementar
     def eventoFinLectura(self):
         pass
+
+    def calcular_k(self):
+        #todo: se debe poder ingresar el valor de k para cada intervalo de páginas
+        if self.veNuevo.cantPagLectura < 20:
+            return self.k_primer_intervalo
+        elif self.veNuevo.cantPagLectura < 30:
+            return self.k_segundo_intervalo
+        else:
+            return self.k_tercer_intervalo

@@ -63,6 +63,9 @@ class CafetinApp:
         self.tiempo_limite = 0
         self.iteraciones = 0
         self.hora_desde = 0
+        self.k_primer_intervalo = 0
+        self.k_segundo_intervalo = 0
+        self.k_tercer_intervalo = 0
 
         # --- Contenedor principal ---
         main_container = tk.Frame(self.root, padx=20, pady=10)  # Aumenté el padding
@@ -122,10 +125,24 @@ class CafetinApp:
         self.entry_max.grid(row=2, column=1, padx=5, pady=3, sticky="w")
 
         # Formulario 2: Tiempo de atención (Fijo)
-        tk.Label(left_form, text="Tiempo de Atención (min):", **label_style).grid(row=3, column=0, sticky="w",
+        tk.Label(left_form, text="Tiempo de Atención:", **label_style).grid(row=3, column=0, sticky="w",
                                                                                   pady=(10, 0))
+        tk.Label(left_form, text="Tiempo de atención de fernando:").grid(row=4, column=0, sticky="w")
         self.entry_fijo = tk.Entry(left_form, **entry_style)
-        self.entry_fijo.grid(row=3, column=1, padx=5, pady=3, sticky="w")
+        self.entry_fijo.grid(row=4, column=1, padx=5, pady=3, sticky="w")
+
+        # Formulario 3: K para Tiempo de lectura
+        tk.Label(left_form, text="Tiempo de lectura (k):", **label_style).grid(row=6, column=0, sticky="w")
+        tk.Label(left_form, text="Entre 10 y 20 páginas [10, 20):").grid(row=7, column=0, sticky="w")
+        self.entry_first_interval = tk.Entry(left_form, **entry_style)
+        self.entry_first_interval.grid(row=7, column=1, padx=5, pady=3, sticky="w")
+        tk.Label(left_form, text="Entre 20 y 30 páginas [20, 30):").grid(row=8, column=0, sticky="w")
+        self.entry_second_interval = tk.Entry(left_form, **entry_style)
+        self.entry_second_interval.grid(row=8, column=1, padx=5, pady=3, sticky="w")
+        tk.Label(left_form, text="Más de 30 páginas [30, 40):").grid(row=9, column=0, sticky="w")
+        self.entry_third_interval = tk.Entry(left_form, **entry_style)
+        self.entry_third_interval.grid(row=9, column=1, padx=5, pady=3, sticky="w")
+
 
         # Columna derecha (Configuración de visualización)
         right_form = tk.LabelFrame(form_columns, text="Configuración de Visualización", padx=15, pady=15)
@@ -170,6 +187,12 @@ class CafetinApp:
             self.tiempo_limite = float(self.entry_tiempo_limite.get() or 0)
             self.iteraciones = int(self.entry_iteraciones.get() or 0)
             self.hora_desde = self.entry_hora_desde.get() or 0
+            self.k_primer_intervalo = float(self.entry_first_interval.get() or 0)
+            self.k_segundo_intervalo = float(self.entry_second_interval.get() or 0)
+            self.k_tercer_intervalo = float(self.entry_third_interval.get() or 0)
+
+
+
         except ValueError:
             print("Error: Por favor ingrese valores numéricos válidos")
             return
@@ -190,7 +213,10 @@ class CafetinApp:
             self.tiempo_atencion,
             self.tiempo_limite,
             self.iteraciones,
-            self.hora_desde
+            self.hora_desde,
+            self.k_primer_intervalo,
+            self.k_segundo_intervalo,
+            self.k_tercer_intervalo
         )
         self.logica.simular()
         print(self.logica.cadenaTabla)
