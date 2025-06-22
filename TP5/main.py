@@ -167,7 +167,7 @@ class CafetinApp:
         tk.Label(right_form, text="Cantidad:").grid(row=2, column=0, sticky="w")
         self.entry_iteraciones = tk.Entry(right_form, **entry_style)
         self.entry_iteraciones.grid(row=2, column=1, padx=5, pady=3, sticky="w")
-        tk.Label(right_form, text="Hora desde (HH:MM):").grid(row=3, column=0, sticky="w")
+        tk.Label(right_form, text="Hora desde (min):").grid(row=3, column=0, sticky="w")
         self.entry_hora_desde = tk.Entry(right_form, **entry_style)
         self.entry_hora_desde.grid(row=3, column=1, padx=5, pady=3, sticky="w")
 
@@ -194,7 +194,7 @@ class CafetinApp:
             self.tiempo_atencion = float(self.entry_fijo.get() or 0)
             self.tiempo_limite = float(self.entry_tiempo_limite.get() or 0)
             self.iteraciones = int(self.entry_iteraciones.get() or 0)
-            self.hora_desde = self.entry_hora_desde.get() or 0
+            self.hora_desde = float(self.entry_hora_desde.get() or 0)
             self.k_primer_intervalo = float(self.entry_first_interval.get() or 0)
             self.k_segundo_intervalo = float(self.entry_second_interval.get() or 0)
             self.k_tercer_intervalo = float(self.entry_third_interval.get() or 0)

@@ -15,10 +15,9 @@ class LogicaPrincipal:
         self.limInfLlegada = limInfLlegada#limInfLlegada
         self.limSupLlegada = limSupLlegada#limSupLlegada
         self.tiempoFernando = tiempoFernando#tiempoFernando
-        self.tiempo_limite = tiempo_limite#tiempo_limite
+        self.tiempo_limite = tiempo_limite + hora_desde#tiempo_limite
         self.cantIteracionesMostrar = cantIteracionesMostrar#cantIteracionesMostrar
-        #todo: pasar a minutos hora desde
-        self.hora_desde = 0#hora_desde
+        self.hora_desde = hora_desde#hora_desde
         self.step = step
 
         # Parametros de la simulacion
@@ -58,7 +57,7 @@ class LogicaPrincipal:
             self.veNuevo.evento = self.veUltimo.proximoEvento
             self.veNuevo.reloj = self.tiempoSimulacion
             #se podria optimizar pero me dio mucha paja xd
-            if self.tiempoSimulacion == 0:
+            if self.tiempoSimulacion == self.hora_desde:
                 self.eventoInicio()
             elif self.tiempoSimulacion > 0 and self.veUltimo.proximoEvento == EnumEventos.LLEGADA_CLIENTE.value:
                 #esta linea si se repite mucho podria ir arriba del primer if
