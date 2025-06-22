@@ -10,12 +10,14 @@ class LogicaPrincipal:
     def __init__(self, limInfLlegada, limSupLlegada, tiempoFernando, tiempo_limite, cantIteracionesMostrar, hora_desde,
                  k_primer, k_segundo, k_tercero):
         #Parametros desde interfaz
-        self.limInfLlegada = 1#limInfLlegada
-        self.limSupLlegada = 10#limSupLlegada
-        self.tiempoFernando = 15#tiempoFernando
-        self.tiempo_limite = 80#tiempo_limite
-        self.cantIteracionesMostrar = 0#cantIteracionesMostrar
+        self.limInfLlegada = limInfLlegada#limInfLlegada
+        self.limSupLlegada = limSupLlegada#limSupLlegada
+        self.tiempoFernando = tiempoFernando#tiempoFernando
+        self.tiempo_limite = tiempo_limite#tiempo_limite
+        self.cantIteracionesMostrar = cantIteracionesMostrar#cantIteracionesMostrar
+        #todo: pasar a minutos hora desde
         self.hora_desde = 0#hora_desde
+
 
         # Parametros de la simulacion
         self.mesasDisponibles = 10
@@ -32,7 +34,7 @@ class LogicaPrincipal:
 
         # self.tiempoLecturaPagina = 3
 
-        self.tiempoSimulacion = 0
+        self.tiempoSimulacion = self.hora_desde
         self.cantIteraciones = 0
 
 
@@ -76,7 +78,7 @@ class LogicaPrincipal:
         #todo se podria implementar una flag, y asi evitar en caso de mostrar todas, mostrar el ultimo 2 veces
         if self.hora_desde == 0 and self.cantIteracionesMostrar == 0:
             self.cadenaTabla.append(self.veNuevo.formatoFila())
-        elif self.tiempoSimulacion >= self.hora_desde and self.cantIteracionesMostrar > self.cantIteraciones:
+        elif self.tiempoSimulacion <= self.tiempo_limite or self.cantIteracionesMostrar > self.cantIteraciones:
             self.cantIteraciones += 1
             self.cadenaTabla.append(self.veNuevo.formatoFila())
 
@@ -134,7 +136,7 @@ class LogicaPrincipal:
         self.veNuevo.cantPagLectura = self.calcularUniforme(self.veNuevo.rndLectura, self.limitesCantPaginas[0], self.limitesCantPaginas[1])
         # todo implementar calculo tiempo lectura Euler, no implemente esto en VE porque no se como quedara con el euler implementado
         self.veNuevo.k = self.calcular_k()
-        self.veNuevo.tiempoLectura = self.veNuevo.k / 5 * 10
+        self.veNuevo.tiempoLectura = self.calcular_tiempo_lectura(self.veNuevo.k)
         self.veNuevo.horaLectura = self.veNuevo.tiempoLectura + self.veNuevo.reloj
 
         # Cambio estado cliente
@@ -160,3 +162,6 @@ class LogicaPrincipal:
             return self.k_segundo_intervalo
         else:
             return self.k_tercer_intervalo
+
+    def calcular_tiempo_lectura(self, k):
+        return 190
