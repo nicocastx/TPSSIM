@@ -166,6 +166,9 @@ class LogicaPrincipal:
 
     # todo implementar
     def eventoFinLectura(self):
+        #todo: agregar la columna fin de lectura en la comparacion de los tiempos para proximo evento
+        #todo: +1 clientes que leyeron
+        #todo: tiempo total de lectura + tiempo lectura de la fila actual
         pass
 
     def calcular_k(self):
