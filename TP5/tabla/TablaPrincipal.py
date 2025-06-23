@@ -47,7 +47,8 @@ class TablaPrincipal(tk.Frame):
             "Fin lectura",
             "Contador leyeron",
             "Contador Retiran",
-            "Tiempo lectura promedio"
+            "T. Acum lectura",
+            "T. Lectura promedio"
         ]
 
         self.sheet.headers(encabezados)

@@ -9,7 +9,7 @@ class VectorEstado:
                  horaLlegada=None, colaF=None, tiempoF=None, estadoF=None,
                  horaF=None, mesasDispL=None, rndLectura=None, cantPagLectura=None, tiempoLectura=None,
                  horaLectura=None, contadorClienteLeido=None,
-                 contadorClienteRetirado=None, tlp=None):
+                 contadorClienteRetirado=None, tiempo_acum_lectura=None, tlp=None):
         self.reloj = reloj
         self.evento = evento
         self.proximoEvento = proximoEvento
@@ -28,6 +28,7 @@ class VectorEstado:
         self.horaLectura = horaLectura
         self.contadorClienteLeido = contadorClienteLeido
         self.contadorClienteRetirado = contadorClienteRetirado
+        self.tiempo_acumulado_lectura = tiempo_acum_lectura
         self.tlp = tlp
         self.clientes = []
 
@@ -42,7 +43,7 @@ class VectorEstado:
         # Filtrar los valores que no son cero
         tiempos = [t for t in [self.horaLlegada, self.horaF] if t > 0]
         for i in self.clientes:
-            if i.horaFin != 0:
+            if i.estado != EnumEstadoCliente.RETIRADO.value and i.horaFin != 0:
                 tiempos.append(i.horaFin)
 
         # Si no hay tiempos válidos, retornar 0
@@ -113,8 +114,18 @@ class VectorEstado:
                 # todo sin importar el evento... esa mierda de atributo se tiene que actualizar... carajo
                 # self.reloj - i.horaInicio
                 i.tiempoLectura = 0
-                self.contadorClienteLeido = self.contadorClienteLeido + 1
+                # self.contadorClienteLeido = self.contadorClienteLeido + 1
                 break
+
+    def termina_de_leer(self):
+        for i in self.clientes:
+            if i.horaFin == self.reloj:
+                i.estado = EnumEstadoCliente.RETIRADO.value
+                self.tiempo_acumulado_lectura += i.horaFin - i.horaInicio
+                self.contadorClienteLeido += 1
+                self.mesasDispL += 1
+                return
+
 
     def formatoFila(self):
         fila = [
@@ -135,6 +146,7 @@ class VectorEstado:
             self.horaLectura,
             self.contadorClienteLeido,
             self.contadorClienteRetirado,
+            self.tiempo_acumulado_lectura,
             self.tlp
         ]
 
@@ -173,6 +185,7 @@ class VectorEstado:
             f"  horaLectura={self.horaLectura},\n"
             f"  contadorClienteLeido={self.contadorClienteLeido},\n"
             f"  contadorClienteRetirado={self.contadorClienteRetirado},\n"
+            f"  tiempoAcumulado={self.tiempo_acumulado_lectura},\n"
             f"  tlp={self.tlp},\n"
             f"  clientes=[{', '.join(str(c) for c in self.clientes)}]\n"
             ")"

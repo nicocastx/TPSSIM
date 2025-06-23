@@ -72,8 +72,8 @@ class LogicaPrincipal:
                 print("Un fin de lectura")
                 print("tiempo antes de procesar evento: " + str(self.tiempoSimulacion))
                 self.eventoFinLectura()
-                self.tiempoSimulacion = self.tiempo_limite
-                break
+                # self.tiempoSimulacion = self.tiempo_limite
+                # break
 
             self.tiempoSimulacion = self.veNuevo.definirNuevoTiempoSimulacion()
             print("tiempo despues de procesar evento: " + str(self.tiempoSimulacion))
@@ -161,13 +161,12 @@ class LogicaPrincipal:
         else:
             self.veNuevo.finAtencionFernandoConCola()
 
-    # todo implementar
-    def eventoFinLectura(self):
 
+    #todo: +1 clientes que leyeron
+    def eventoFinLectura(self):
+        self.veNuevo.termina_de_leer()
+        self.veNuevo.tlp = self.veNuevo.tiempo_acumulado_lectura / self.veNuevo.contadorClienteLeido
         #todo: agregar la columna fin de lectura en la comparacion de los tiempos para proximo evento
-        #todo: +1 clientes que leyeron
-        #todo: tiempo total de lectura + tiempo lectura de la fila actual
-        pass
 
     def calcular_k(self):
         #todo: se debe poder ingresar el valor de k para cada intervalo de páginas
