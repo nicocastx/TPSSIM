@@ -40,7 +40,10 @@ class VectorEstado:
     # todo implementar revisando la lista de clientes, actualmente no anda por eso
     def definirNuevoTiempoSimulacion(self):
         # Filtrar los valores que no son cero
-        tiempos = [t for t in [self.horaLlegada, self.horaF, self.horaLectura] if t > 0]
+        tiempos = [t for t in [self.horaLlegada, self.horaF] if t > 0]
+        for i in self.clientes:
+            if i.horaFin != 0:
+                tiempos.append(i.horaFin)
 
         # Si no hay tiempos válidos, retornar 0
         if not tiempos:
@@ -58,7 +61,7 @@ class VectorEstado:
             self.proximoEvento = EnumEventos.LLEGADA_CLIENTE.value
         elif self.maximoTiempo == self.horaF:
             self.proximoEvento = EnumEventos.FIN_ATENCION.value
-        elif self.maximoTiempo == self.horaLectura:
+        else:
             self.proximoEvento = EnumEventos.FIN_LECTURA.value
 
     def llegadaSinColaFernando(self):

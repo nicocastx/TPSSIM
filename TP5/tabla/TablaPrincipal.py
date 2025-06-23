@@ -45,8 +45,8 @@ class TablaPrincipal(tk.Frame):
             "Cantidad Paginas",
             "Tiempo de lectura",
             "Fin lectura",
-            "Contador Clientes leyeron",
-            "Contador clientes Retiran",
+            "Contador leyeron",
+            "Contador Retiran",
             "Tiempo lectura promedio"
         ]
 

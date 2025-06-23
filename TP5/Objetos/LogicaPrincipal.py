@@ -15,9 +15,9 @@ class LogicaPrincipal:
         self.limInfLlegada = limInfLlegada#limInfLlegada
         self.limSupLlegada = limSupLlegada#limSupLlegada
         self.tiempoFernando = tiempoFernando#tiempoFernando
-        self.tiempo_limite = tiempo_limite + hora_desde#tiempo_limite
+        self.tiempo_limite = tiempo_limite #tiempo_limite
         self.cantIteracionesMostrar = cantIteracionesMostrar#cantIteracionesMostrar
-        self.hora_desde = hora_desde#hora_desde
+        self.hora_desde = hora_desde
         self.step = step
 
         # Parametros de la simulacion
@@ -35,7 +35,7 @@ class LogicaPrincipal:
 
         # self.tiempoLecturaPagina = 3
 
-        self.tiempoSimulacion = self.hora_desde
+        self.tiempoSimulacion = 0
         self.cantIteraciones = 0
 
         self.wb = Workbook()
@@ -57,7 +57,7 @@ class LogicaPrincipal:
             self.veNuevo.evento = self.veUltimo.proximoEvento
             self.veNuevo.reloj = self.tiempoSimulacion
             #se podria optimizar pero me dio mucha paja xd
-            if self.tiempoSimulacion == self.hora_desde:
+            if self.tiempoSimulacion == 0:
                 self.eventoInicio()
             elif self.tiempoSimulacion > 0 and self.veUltimo.proximoEvento == EnumEventos.LLEGADA_CLIENTE.value:
                 #esta linea si se repite mucho podria ir arriba del primer if
@@ -92,7 +92,7 @@ class LogicaPrincipal:
         #todo se podria implementar una flag, y asi evitar en caso de mostrar todas, mostrar el ultimo 2 veces
         if self.hora_desde == 0 and self.cantIteracionesMostrar == 0:
             self.cadenaTabla.append(self.veNuevo.formatoFila())
-        elif self.tiempoSimulacion <= self.tiempo_limite or self.cantIteracionesMostrar > self.cantIteraciones:
+        elif self.tiempoSimulacion >= self.hora_desde and self.cantIteracionesMostrar > self.cantIteraciones:
             self.cantIteraciones += 1
             self.cadenaTabla.append(self.veNuevo.formatoFila())
 
@@ -161,11 +161,9 @@ class LogicaPrincipal:
         else:
             self.veNuevo.finAtencionFernandoConCola()
 
-
-
-
     # todo implementar
     def eventoFinLectura(self):
+
         #todo: agregar la columna fin de lectura en la comparacion de los tiempos para proximo evento
         #todo: +1 clientes que leyeron
         #todo: tiempo total de lectura + tiempo lectura de la fila actual
