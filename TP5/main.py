@@ -3,6 +3,7 @@ import openpyxl
 from openpyxl import Workbook
 
 from TP5.Objetos.LogicaPrincipal import LogicaPrincipal
+from TP5.enums.EnumEstadoCliente import EnumEstadoCliente
 from TP5.enums.EnumEventos import EnumEventos
 
 # Elementos parametrizables
@@ -242,10 +243,20 @@ class CafetinApp:
         print(self.logica.cadenaTabla)
         self.tabla.set_datos(self.logica.cadenaTabla)
 
+        # Resaltar la última fila
+        if self.logica.cadenaTabla:
+            sheet = self.tabla.get_sheet()
+            last_row = len(self.logica.cadenaTabla) - 1
+            sheet.highlight_cells(row=last_row, bg="#ffff99")  # Amarillo claro
+
         punto1 = self.calculo_primer_punto()
         # Actualizar las etiquetas del footer
+        try:
+            punto2 = round((self.logica.veUltimo.tiempo_acumulado_lectura / self.logica.veUltimo.contadorClienteLeido), 2)
+        except:
+            punto2 = 0
         self.label_punto1.config(text="El porcentaje de clientes retirados por mesas ocupadas es de: " + str(punto1) + " %")
-        self.label_punto2.config(text=f"El tiempo promedio de lectura es de {round((self.logica.veUltimo.tiempo_acumulado_lectura / self.logica.veUltimo.contadorClienteLeido), 2)} minutos")
+        self.label_punto2.config(text=f"El tiempo promedio de lectura es de {punto2} minutos")
 
     #Limpio la tabla de datos
     def limpiar_tabla(self):
@@ -254,8 +265,20 @@ class CafetinApp:
         self.tabla.set_datos([])
 
     def calculo_primer_punto(self):
-        total = round(((self.logica.veUltimo.contadorClienteRetirado/(self.logica.veUltimo.contadorClienteLeido+self.logica.veUltimo.contadorClienteRetirado))*100), 2)
+        contadorClientes = 0
+        try:
+            for i in range(len(self.logica.veUltimo.clientes)):
+                if self.logica.veUltimo.clientes[i].estado in (EnumEstadoCliente.EN_ATENCION.value, EnumEstadoCliente.SENTADO_MESA.value):
+                    contadorClientes += 1
+            contadorClientes += self.logica.veUltimo.contadorClienteLeido
+            print(contadorClientes)
+            print(self.logica.veUltimo.contadorClienteRetirado)
+            total = round(((self.logica.veUltimo.contadorClienteRetirado / (
+                                self.logica.veUltimo.contadorClienteRetirado + self.logica.clienteAtendido)) * 100), 2)
+        except:
+            total = 0
         return total
+
 
 # --- Ejecutar aplicación ---
 if __name__ == "__main__":

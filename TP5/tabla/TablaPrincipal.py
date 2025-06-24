@@ -112,13 +112,7 @@ class TablaPrincipal(tk.Frame):
                 fila.append("")  # Rellenar con valor vacío si es necesario
         self.sheet.set_sheet_data(datos_actuales)
 
-    #posiblemente se quede corto para los 100000 filas, ver como plantear la muestra de clientes vhv
     def add_cliente_columna(self, nombre_principal, subcolumnas):
-        """
-        Crea un grupo de columnas con un encabezado principal que las abarca.
-        Ejemplo de uso:
-        add_cliente_columna("Cliente 1", ["Estado", "Hora Inicio", "Hora Fin"])
-        """
         # Obtener los datos actuales
         headers_actuales = self.sheet.headers()
         datos_actuales = self.sheet.get_sheet_data()

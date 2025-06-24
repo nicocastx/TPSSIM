@@ -12,17 +12,17 @@ class LogicaPrincipal:
     def __init__(self, limInfLlegada, limSupLlegada, tiempoFernando, tiempo_limite, cantIteracionesMostrar, hora_desde,
                  k_primer, k_segundo, k_tercero, step):
         #Parametros desde interfaz
-        self.limInfLlegada = limInfLlegada
-        self.limSupLlegada = limSupLlegada
-        self.tiempoFernando = tiempoFernando
-        self.tiempo_limite = tiempo_limite
-        self.cantIteracionesMostrar = cantIteracionesMostrar
-        self.hora_desde = hora_desde
-        self.step = step
+        self.limInfLlegada = 2#limInfLlegada
+        self.limSupLlegada = 9#limSupLlegada
+        self.tiempoFernando = 2#tiempoFernando
+        self.tiempo_limite = 200#tiempo_limite
+        self.cantIteracionesMostrar = 0#cantIteracionesMostrar
+        self.hora_desde = 0#hora_desde
+        self.step = 0.1#step
         # tiempo de lectura
-        self.k_primer_intervalo = k_primer
-        self.k_segundo_intervalo = k_segundo
-        self.k_tercer_intervalo = k_tercero
+        self.k_primer_intervalo = 10#k_primer
+        self.k_segundo_intervalo = 10#k_segundo
+        self.k_tercer_intervalo = 1#k_tercero
 
         # Parametros de la simulacion
         self.mesasDisponibles = 10
@@ -30,6 +30,7 @@ class LogicaPrincipal:
         self.veUltimo = VectorEstado()
         self.veNuevo = VectorEstado()
         self.cadenaTabla = []
+        self.clienteAtendido = 0
 
         # self.tiempoLecturaPagina = 3
 
@@ -40,17 +41,7 @@ class LogicaPrincipal:
         self.ws1 = self.wb.active
         self.ws1.title = "euler.xslx"  # Renombrar la hoja
 
-        # 3. Escribir datos en celdas específicas
-        self.ws1['A1'] = "x"
-        self.ws1['B1'] = "y"
-        self.ws1['C1'] = "f"
-        self.ws1['D1'] = "x+1"
-        self.ws1['E1'] = "y+1"
-
-
-
     def simular(self):
-
         while self.tiempoSimulacion < self.tiempo_limite:
             self.veNuevo.evento = self.veUltimo.proximoEvento
             self.veNuevo.reloj = self.tiempoSimulacion
@@ -88,7 +79,7 @@ class LogicaPrincipal:
         #todo se podria implementar una flag, y asi evitar en caso de mostrar todas, mostrar el ultimo 2 veces
         if self.hora_desde == 0 and self.cantIteracionesMostrar == 0:
             self.cadenaTabla.append(self.veNuevo.formatoFila())
-        elif self.tiempoSimulacion >= self.hora_desde and self.cantIteracionesMostrar > self.cantIteraciones:
+        elif self.veNuevo.reloj >= self.hora_desde and self.cantIteracionesMostrar > self.cantIteraciones:
             self.cantIteraciones += 1
             self.cadenaTabla.append(self.veNuevo.formatoFila())
 
@@ -140,6 +131,7 @@ class LogicaPrincipal:
         #todo ocurre lo mismo con fin atencion y lectura, podria hacer metodo resetearRandoms() algo asi para el nuevo VE
         self.veNuevo.rndLlegada = 0
         self.veNuevo.tiempoLlegada = 0
+        self.clienteAtendido += 1
 
         # Calculo de tiempo lectura
         self.veNuevo.rndLectura = round(random.random(), 2)
@@ -176,7 +168,7 @@ class LogicaPrincipal:
 
     def ejecutar_simulacion_euler_dy_dx_k_sobre_5(self, k, h, p, sheet):
 
-        titulos = ["X", "Y", "F", "X+1", "Y+1"]
+        titulos = ["t", "P", "f", "t+1", "P+1", f"{self.veNuevo.reloj}", f"{self.veNuevo.cantPagLectura}"]
         sheet.append(titulos)
 
         xm_mas_u = 0
