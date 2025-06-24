@@ -171,6 +171,13 @@ class CafetinApp:
         self.entry_hora_desde = tk.Entry(right_form, **entry_style)
         self.entry_hora_desde.grid(row=3, column=1, padx=5, pady=3, sticky="w")
 
+        # Agregar etiquetas de información
+        self.label_punto1 = tk.Label(right_form, text="", font=('Arial', 10))
+        self.label_punto1.grid(row=4, column=0, columnspan=2, sticky="w", pady=(10, 0))
+
+        self.label_punto2 = tk.Label(right_form, text="", font=('Arial', 10))
+        self.label_punto2.grid(row=5, column=0, columnspan=2, sticky="w")
+
         # Configurar el peso de las filas y columnas para mejor distribución
         for frame in [left_form, right_form]:
             for i in range(10):  # Asegurar que hay suficientes filas
@@ -185,6 +192,8 @@ class CafetinApp:
         # --- Footer (Botones de control) ---
         footer = tk.Frame(self.root, pady=10)
         footer.pack(fill="x")
+        
+
 
     def validar_formulario(self):
         # Obtener valores de los formularios
@@ -208,6 +217,7 @@ class CafetinApp:
 
     def cargar_datos_ejemplo(self):
         self.validar_formulario()
+        
         # Mostrar los valores en consola
         print("\n--- Valores del formulario ---")
         print(f"Tiempo de llegada: {self.min_llegada} - {self.max_llegada} minutos")
@@ -232,12 +242,20 @@ class CafetinApp:
         print(self.logica.cadenaTabla)
         self.tabla.set_datos(self.logica.cadenaTabla)
 
+        punto1 = self.calculo_primer_punto()
+        # Actualizar las etiquetas del footer
+        self.label_punto1.config(text="El porcentaje de clientes retirados por mesas ocupadas es de: " + str(punto1) + " %")
+        self.label_punto2.config(text=f"El tiempo promedio de lectura es de {round((self.logica.veUltimo.tiempo_acumulado_lectura / self.logica.veUltimo.contadorClienteLeido), 2)} minutos")
+
     #Limpio la tabla de datos
     def limpiar_tabla(self):
         # Reinicio Componentes
         self.logica = None
         self.tabla.set_datos([])
 
+    def calculo_primer_punto(self):
+        total = round(((self.logica.veUltimo.contadorClienteRetirado/(self.logica.veUltimo.contadorClienteLeido+self.logica.veUltimo.contadorClienteRetirado))*100), 2)
+        return total
 
 # --- Ejecutar aplicación ---
 if __name__ == "__main__":

@@ -12,13 +12,17 @@ class LogicaPrincipal:
     def __init__(self, limInfLlegada, limSupLlegada, tiempoFernando, tiempo_limite, cantIteracionesMostrar, hora_desde,
                  k_primer, k_segundo, k_tercero, step):
         #Parametros desde interfaz
-        self.limInfLlegada = limInfLlegada#limInfLlegada
-        self.limSupLlegada = limSupLlegada#limSupLlegada
-        self.tiempoFernando = tiempoFernando#tiempoFernando
-        self.tiempo_limite = tiempo_limite #tiempo_limite
-        self.cantIteracionesMostrar = cantIteracionesMostrar#cantIteracionesMostrar
+        self.limInfLlegada = limInfLlegada
+        self.limSupLlegada = limSupLlegada
+        self.tiempoFernando = tiempoFernando
+        self.tiempo_limite = tiempo_limite
+        self.cantIteracionesMostrar = cantIteracionesMostrar
         self.hora_desde = hora_desde
         self.step = step
+        # tiempo de lectura
+        self.k_primer_intervalo = k_primer
+        self.k_segundo_intervalo = k_segundo
+        self.k_tercer_intervalo = k_tercero
 
         # Parametros de la simulacion
         self.mesasDisponibles = 10
@@ -26,12 +30,6 @@ class LogicaPrincipal:
         self.veUltimo = VectorEstado()
         self.veNuevo = VectorEstado()
         self.cadenaTabla = []
-
-
-        #tiempo de lectura
-        self.k_primer_intervalo = k_primer
-        self.k_segundo_intervalo = k_segundo
-        self.k_tercer_intervalo = k_tercero
 
         # self.tiempoLecturaPagina = 3
 
@@ -72,8 +70,6 @@ class LogicaPrincipal:
                 print("Un fin de lectura")
                 print("tiempo antes de procesar evento: " + str(self.tiempoSimulacion))
                 self.eventoFinLectura()
-                # self.tiempoSimulacion = self.tiempo_limite
-                # break
 
             self.tiempoSimulacion = self.veNuevo.definirNuevoTiempoSimulacion()
             print("tiempo despues de procesar evento: " + str(self.tiempoSimulacion))
@@ -158,6 +154,7 @@ class LogicaPrincipal:
 
         if self.veNuevo.colaF == 0:
             self.veNuevo.estadoF = EnumEstadoFernando.LIBRE.value
+            self.veNuevo.horaF = 0
         else:
             self.veNuevo.finAtencionFernandoConCola()
 
@@ -176,9 +173,6 @@ class LogicaPrincipal:
             return self.k_segundo_intervalo
         else:
             return self.k_tercer_intervalo
-
-    def calcular_tiempo_lectura(self, k, h):
-        return 190
 
     def ejecutar_simulacion_euler_dy_dx_k_sobre_5(self, k, h, p, sheet):
 

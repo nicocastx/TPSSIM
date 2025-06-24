@@ -124,6 +124,8 @@ class VectorEstado:
                 self.tiempo_acumulado_lectura += i.horaFin - i.horaInicio
                 self.contadorClienteLeido += 1
                 self.mesasDispL += 1
+                i.horaFin = 0
+                i.horaInicio = 0
                 return
 
 
