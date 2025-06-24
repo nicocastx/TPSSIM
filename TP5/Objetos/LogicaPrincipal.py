@@ -12,17 +12,17 @@ class LogicaPrincipal:
     def __init__(self, limInfLlegada, limSupLlegada, tiempoFernando, tiempo_limite, cantIteracionesMostrar, hora_desde,
                  k_primer, k_segundo, k_tercero, step):
         #Parametros desde interfaz
-        self.limInfLlegada = 2#limInfLlegada
-        self.limSupLlegada = 9#limSupLlegada
-        self.tiempoFernando = 2#tiempoFernando
-        self.tiempo_limite = 200#tiempo_limite
-        self.cantIteracionesMostrar = 0#cantIteracionesMostrar
-        self.hora_desde = 0#hora_desde
-        self.step = 0.1#step
+        self.limInfLlegada = limInfLlegada
+        self.limSupLlegada = limSupLlegada
+        self.tiempoFernando = tiempoFernando
+        self.tiempo_limite = tiempo_limite
+        self.cantIteracionesMostrar = cantIteracionesMostrar
+        self.hora_desde = hora_desde
+        self.step = step
         # tiempo de lectura
-        self.k_primer_intervalo = 10#k_primer
-        self.k_segundo_intervalo = 10#k_segundo
-        self.k_tercer_intervalo = 1#k_tercero
+        self.k_primer_intervalo = k_primer
+        self.k_segundo_intervalo = k_segundo
+        self.k_tercer_intervalo = k_tercero
 
         # Parametros de la simulacion
         self.mesasDisponibles = 10
@@ -31,8 +31,6 @@ class LogicaPrincipal:
         self.veNuevo = VectorEstado()
         self.cadenaTabla = []
         self.clienteAtendido = 0
-
-        # self.tiempoLecturaPagina = 3
 
         self.tiempoSimulacion = 0
         self.cantIteraciones = 0
@@ -136,7 +134,7 @@ class LogicaPrincipal:
         # Calculo de tiempo lectura
         self.veNuevo.rndLectura = round(random.random(), 2)
         self.veNuevo.cantPagLectura = self.calcularUniforme(self.veNuevo.rndLectura, self.limitesCantPaginas[0], self.limitesCantPaginas[1])
-        # todo implementar calculo tiempo lectura Euler, no implemente esto en VE porque no se como quedara con el euler implementado
+        #todo implementar calculo tiempo lectura Euler, no implemente esto en VE porque no se como quedara con el euler implementado
         self.veNuevo.k = self.calcular_k()
         self.veNuevo.tiempoLectura = self.ejecutar_simulacion_euler_dy_dx_k_sobre_5(self.veNuevo.k, self.step, self.veNuevo.cantPagLectura, self.ws1)
         self.veNuevo.horaLectura = self.veNuevo.tiempoLectura + self.veNuevo.reloj

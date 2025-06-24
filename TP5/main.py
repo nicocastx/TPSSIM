@@ -130,8 +130,8 @@ class CafetinApp:
 
         # Formulario 2: Tiempo de atención (Fijo)
         tk.Label(left_form, text="Tiempo de Atención:", **label_style).grid(row=3, column=0, sticky="w",
-                                                                                  pady=(10, 0))
-        tk.Label(left_form, text="Tiempo de atención de fernando:").grid(row=4, column=0, sticky="w")
+                                                                            pady=(10, 0))
+        tk.Label(left_form, text="Tiempo de atención de Fernando:").grid(row=4, column=0, sticky="w")
         self.entry_fijo = tk.Entry(left_form, **entry_style)
         self.entry_fijo.grid(row=4, column=1, padx=5, pady=3, sticky="w")
 
@@ -193,8 +193,6 @@ class CafetinApp:
         # --- Footer (Botones de control) ---
         footer = tk.Frame(self.root, pady=10)
         footer.pack(fill="x")
-        
-
 
     def validar_formulario(self):
         # Obtener valores de los formularios
@@ -218,7 +216,7 @@ class CafetinApp:
 
     def cargar_datos_ejemplo(self):
         self.validar_formulario()
-        
+
         # Mostrar los valores en consola
         print("\n--- Valores del formulario ---")
         print(f"Tiempo de llegada: {self.min_llegada} - {self.max_llegada} minutos")
@@ -252,13 +250,15 @@ class CafetinApp:
         punto1 = self.calculo_primer_punto()
         # Actualizar las etiquetas del footer
         try:
-            punto2 = round((self.logica.veUltimo.tiempo_acumulado_lectura / self.logica.veUltimo.contadorClienteLeido), 2)
+            punto2 = round((self.logica.veUltimo.tiempo_acumulado_lectura / self.logica.veUltimo.contadorClienteLeido),
+                           2)
         except:
             punto2 = 0
-        self.label_punto1.config(text="El porcentaje de clientes retirados por mesas ocupadas es de: " + str(punto1) + " %")
+        self.label_punto1.config(
+            text="El porcentaje de clientes retirados por mesas ocupadas es de: " + str(punto1) + " %")
         self.label_punto2.config(text=f"El tiempo promedio de lectura es de {punto2} minutos")
 
-    #Limpio la tabla de datos
+    # Limpio la tabla de datos
     def limpiar_tabla(self):
         # Reinicio Componentes
         self.logica = None
@@ -268,13 +268,14 @@ class CafetinApp:
         contadorClientes = 0
         try:
             for i in range(len(self.logica.veUltimo.clientes)):
-                if self.logica.veUltimo.clientes[i].estado in (EnumEstadoCliente.EN_ATENCION.value, EnumEstadoCliente.SENTADO_MESA.value):
+                if self.logica.veUltimo.clientes[i].estado in (
+                EnumEstadoCliente.EN_ATENCION.value, EnumEstadoCliente.SENTADO_MESA.value):
                     contadorClientes += 1
             contadorClientes += self.logica.veUltimo.contadorClienteLeido
             print(contadorClientes)
             print(self.logica.veUltimo.contadorClienteRetirado)
             total = round(((self.logica.veUltimo.contadorClienteRetirado / (
-                                self.logica.veUltimo.contadorClienteRetirado + self.logica.clienteAtendido)) * 100), 2)
+                    self.logica.veUltimo.contadorClienteRetirado + self.logica.clienteAtendido)) * 100), 2)
         except:
             total = 0
         return total

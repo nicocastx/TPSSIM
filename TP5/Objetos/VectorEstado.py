@@ -58,7 +58,7 @@ class VectorEstado:
     def definirProximoEvento(self):
         if self.maximoTiempo == self.horaLlegada:
             # lo plantee aca porque la condicion esta se cumple tanto para el inicio como llegada
-            self.clientes.append(Cliente(EnumEstadoCliente.CREADO.value, 0, 0, 0))
+            self.clientes.append(Cliente(EnumEstadoCliente.CREADO.value, 0, 0))
             self.proximoEvento = EnumEventos.LLEGADA_CLIENTE.value
         elif self.maximoTiempo == self.horaF:
             self.proximoEvento = EnumEventos.FIN_ATENCION.value
@@ -96,6 +96,7 @@ class VectorEstado:
             self.estadoF = EnumEstadoFernando.LIBRE.value
             self.horaF = 0
             self.colaClientes = []
+            self.colaF = 0
             return
 
         self.colaF = self.colaF - 1
@@ -157,8 +158,7 @@ class VectorEstado:
             fila.extend([
                 cliente.estado,
                 cliente.horaInicio,
-                cliente.horaFin,
-                cliente.tiempoLectura
+                cliente.horaFin
             ])
 
         return fila
