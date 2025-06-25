@@ -32,7 +32,7 @@ class TablaPrincipal(tk.Frame):
             "Reloj",
             "Evento",
             "Proximo evento",
-            "RND Fernando",
+            "RND Llegada",
             "Tiempo Llegada",
             "Hora Llegada",
             "Cola Fernando",
@@ -66,10 +66,10 @@ class TablaPrincipal(tk.Frame):
         # Si no hay suficientes columnas para los clientes, agregar las que faltan
         if max_columns > len(self.sheet.headers()):
             # Calcular cuántos clientes nuevos hay
-            num_clientes = (max_columns - 18) // 4  # 18 columnas fijas iniciales
+            num_clientes = (max_columns - 18) // 3  # 18 columnas fijas iniciales
 
             # Agregar columnas para los clientes que faltan
-            for i in range(len(self.sheet.headers()) - 17, num_clientes + 1):  # +1 porque i empieza en 1
+            for i in range(len(self.sheet.headers()) - 18, num_clientes + 1):  # +1 porque i empieza en 1
                 if i > 0:  # Evitar cliente 0
                     self.add_cliente_columna(f"Cliente {i}", ["Estado", "Inicio", "Fin Lectura"])
 

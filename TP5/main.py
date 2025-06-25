@@ -70,6 +70,7 @@ class CafetinApp:
         self.k_segundo_intervalo = 0
         self.k_tercer_intervalo = 0
         self.step = 0
+        self.contadorClientes = 0
 
         # --- Contenedor principal ---
         main_container = tk.Frame(self.root, padx=20, pady=10)  # Aumenté el padding
@@ -179,6 +180,9 @@ class CafetinApp:
         self.label_punto2 = tk.Label(right_form, text="", font=('Arial', 10))
         self.label_punto2.grid(row=5, column=0, columnspan=2, sticky="w")
 
+        self.clientesCalculo = tk.Label(right_form, text="", font=('Arial', 10))
+        self.clientesCalculo.grid(row=6, column=0, columnspan=2, sticky="w")
+
         # Configurar el peso de las filas y columnas para mejor distribución
         for frame in [left_form, right_form]:
             for i in range(10):  # Asegurar que hay suficientes filas
@@ -216,6 +220,7 @@ class CafetinApp:
 
     def cargar_datos_ejemplo(self):
         self.validar_formulario()
+        self.contadorClientes = 0
 
         # Mostrar los valores en consola
         print("\n--- Valores del formulario ---")
@@ -263,21 +268,22 @@ class CafetinApp:
         # Reinicio Componentes
         self.logica = None
         self.tabla.set_datos([])
+        self.contadorClientes = 0
 
     def calculo_primer_punto(self):
-        contadorClientes = 0
         try:
             for i in range(len(self.logica.veUltimo.clientes)):
-                if self.logica.veUltimo.clientes[i].estado in (
-                EnumEstadoCliente.EN_ATENCION.value, EnumEstadoCliente.SENTADO_MESA.value):
-                    contadorClientes += 1
-            contadorClientes += self.logica.veUltimo.contadorClienteLeido
-            print(contadorClientes)
+                if self.logica.veUltimo.clientes[i].estado in (EnumEstadoCliente.EN_ATENCION.value, EnumEstadoCliente.SENTADO_MESA.value):
+                    self.contadorClientes += 1
+            self.contadorClientes += self.logica.veUltimo.contadorClienteLeido
+            print(self.contadorClientes)
             print(self.logica.veUltimo.contadorClienteRetirado)
             total = round(((self.logica.veUltimo.contadorClienteRetirado / (
                     self.logica.veUltimo.contadorClienteRetirado + self.logica.clienteAtendido)) * 100), 2)
+            self.clientesCalculo.config(text="Contador de clientes atendidos: " + str(self.contadorClientes))
         except:
             total = 0
+
         return total
 
 
