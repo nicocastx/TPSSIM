@@ -166,7 +166,7 @@ class LogicaPrincipal:
 
     def ejecutar_simulacion_euler_dy_dx_k_sobre_5(self, k, h, p, sheet):
 
-        titulos = ["t", "P", "f", "t+1", "P+1", f"{self.veNuevo.reloj}", f"{self.veNuevo.cantPagLectura}"]
+        titulos = ["t", "P", "f", "t+1", "P+1", f"Reloj: {self.veNuevo.reloj}", f"Cantidad Buscada: {self.veNuevo.cantPagLectura}"]
         sheet.append(titulos)
 
         xm_mas_u = 0
