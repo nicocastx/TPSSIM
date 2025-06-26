@@ -30,10 +30,12 @@ class LogicaPrincipal:
         self.veUltimo = VectorEstado()
         self.veNuevo = VectorEstado()
         self.cadenaTabla = []
-        self.clienteAtendido = 0
+        # self.clienteAtendido = 0
+
 
         self.tiempoSimulacion = 0
         self.cantIteraciones = 0
+        self.tiempo_acum_lectura = 0
 
         self.wb = Workbook()
         self.ws1 = self.wb.active
@@ -59,6 +61,12 @@ class LogicaPrincipal:
                 print("Un fin de lectura")
                 print("tiempo antes de procesar evento: " + str(self.tiempoSimulacion))
                 self.eventoFinLectura()
+
+            try:
+                self.veNuevo.porcentaje_retirados = self.veNuevo.contadorClienteRetirado / (
+                            self.veNuevo.contadorClienteRetirado + self.veNuevo.contadorClienteAtendido)
+            except:
+                self.veNuevo.porcentaje_retirados = 0
 
             self.tiempoSimulacion = self.veNuevo.definirNuevoTiempoSimulacion()
             print("tiempo despues de procesar evento: " + str(self.tiempoSimulacion))
@@ -94,7 +102,7 @@ class LogicaPrincipal:
                                     valorUniforme, valorUniforme + self.tiempoSimulacion,
                                     0, self.tiempoFernando, EnumEstadoFernando.LIBRE.value, 0,
                                     self.mesasDisponibles, 0, 0, 0, 0,
-                                    0, 0, 0)
+                                    0, 0, 0, 0, 0, 0)
 
     """
     Se cubre que:
@@ -129,7 +137,8 @@ class LogicaPrincipal:
         #todo ocurre lo mismo con fin atencion y lectura, podria hacer metodo resetearRandoms() algo asi para el nuevo VE
         self.veNuevo.rndLlegada = 0
         self.veNuevo.tiempoLlegada = 0
-        self.clienteAtendido += 1
+        self.veNuevo.contadorClienteAtendido += 1
+
 
         # Calculo de tiempo lectura
         self.veNuevo.rndLectura = round(random.random(), 2)

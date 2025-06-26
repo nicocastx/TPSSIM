@@ -43,11 +43,13 @@ class TablaPrincipal(tk.Frame):
             "RND paginas",
             "Cantidad Paginas",
             "Tiempo de lectura",
-            "Fin lectura",
-            "Contador leyeron",
-            "Contador Retiran",
+            "Hora Fin lectura",
+            "Cantidad de leídos",
+            "Cantidad de retirados",
+            "Cantidad de atendidos", #
             "T. Acum lectura",
-            "T. Lectura promedio"
+            "T. Lectura promedio",
+            "% de retirados" #
         ]
 
         self.sheet.headers(encabezados)

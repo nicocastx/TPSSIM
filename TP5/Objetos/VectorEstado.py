@@ -8,8 +8,8 @@ class VectorEstado:
     def __init__(self, reloj=None, evento=None, proximoEvento=None, rndLlegada=None, tiempoLlegada=None,
                  horaLlegada=None, colaF=None, tiempoF=None, estadoF=None,
                  horaF=None, mesasDispL=None, rndLectura=None, cantPagLectura=None, tiempoLectura=None,
-                 horaLectura=None, contadorClienteLeido=None,
-                 contadorClienteRetirado=None, tiempo_acum_lectura=None, tlp=None):
+                 horaLectura=None, contadorClienteLeido=None, contadorClienteRetirado=None,
+                 tiempo_acum_lectura=None, tlp=None, contadorClienteAtendido=None, porcentaje_retirados=None):
         self.reloj = reloj
         self.evento = evento
         self.proximoEvento = proximoEvento
@@ -28,8 +28,10 @@ class VectorEstado:
         self.horaLectura = horaLectura
         self.contadorClienteLeido = contadorClienteLeido
         self.contadorClienteRetirado = contadorClienteRetirado
+        self.contadorClienteAtendido = contadorClienteAtendido
         self.tiempo_acumulado_lectura = tiempo_acum_lectura
         self.tlp = tlp
+        self.porcentaje_retirados = porcentaje_retirados
         self.clientes = []
 
         # Es necesario para saber cual es el siguiente cliente a ser atendido
@@ -149,8 +151,10 @@ class VectorEstado:
             self.horaLectura,
             self.contadorClienteLeido,
             self.contadorClienteRetirado,
+            self.contadorClienteAtendido,
             self.tiempo_acumulado_lectura,
-            self.tlp
+            self.tlp,
+            self.porcentaje_retirados
         ]
 
         # Agregar los atributos de cada cliente a la fila
@@ -187,8 +191,10 @@ class VectorEstado:
             f"  horaLectura={self.horaLectura},\n"
             f"  contadorClienteLeido={self.contadorClienteLeido},\n"
             f"  contadorClienteRetirado={self.contadorClienteRetirado},\n"
+            f"  contadorClienteAtendido={self.contadorClienteAtendido},\n"
             f"  tiempoAcumulado={self.tiempo_acumulado_lectura},\n"
             f"  tlp={self.tlp},\n"
+            f"  porcentaje_retirados={self.porcentaje_retirados},\n"
             f"  clientes=[{', '.join(str(c) for c in self.clientes)}]\n"
             ")"
         )

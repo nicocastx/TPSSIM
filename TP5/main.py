@@ -283,8 +283,11 @@ class CafetinApp:
             self.clientesCalculo.config(text="Contador de clientes atendidos: " + str(self.contadorClientes))
         except:
             total = 0
-
         return total
+
+
+    def calculo_primer_punto(self):
+        pass
 
 
 # --- Ejecutar aplicación ---
