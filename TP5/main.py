@@ -201,16 +201,16 @@ class CafetinApp:
     def validar_formulario(self):
         # Obtener valores de los formularios
         try:
-            self.min_llegada = float(self.entry_min.get() or 0)
-            self.max_llegada = float(self.entry_max.get() or 0)
-            self.tiempo_atencion = float(self.entry_fijo.get() or 0)
-            self.tiempo_limite = float(self.entry_tiempo_limite.get() or 0)
+            self.min_llegada = float(self.entry_min.get() or 20)
+            self.max_llegada = float(self.entry_max.get() or 50)
+            self.tiempo_atencion = float(self.entry_fijo.get() or 15)
+            self.tiempo_limite = float(self.entry_tiempo_limite.get() or 500)
             self.iteraciones = int(self.entry_iteraciones.get() or 0)
             self.hora_desde = float(self.entry_hora_desde.get() or 0)
-            self.k_primer_intervalo = float(self.entry_first_interval.get() or 0)
-            self.k_segundo_intervalo = float(self.entry_second_interval.get() or 0)
-            self.k_tercer_intervalo = float(self.entry_third_interval.get() or 0)
-            self.step = float(self.entry_step.get() or 0)
+            self.k_primer_intervalo = float(self.entry_first_interval.get() or 100)
+            self.k_segundo_intervalo = float(self.entry_second_interval.get() or 90)
+            self.k_tercer_intervalo = float(self.entry_third_interval.get() or 75)
+            self.step = float(self.entry_step.get() or 0.1)
 
 
 
@@ -274,8 +274,6 @@ class CafetinApp:
         self.logica = None
         self.tabla.set_datos([])
         self.contadorClientes = 0
-
-
 
 
 # --- Ejecutar aplicación ---

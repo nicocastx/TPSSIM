@@ -113,7 +113,7 @@ class VectorEstado:
                 i.estado = EnumEstadoCliente.SENTADO_MESA.value
                 self.mesasDispL = self.mesasDispL - 1
                 i.horaInicio = self.reloj
-                i.horaFin = self.horaLectura
+                i.horaFin = round(self.horaLectura, 3)
                 # todo sin importar el evento... esa mierda de atributo se tiene que actualizar... carajo
                 # self.reloj - i.horaInicio
                 i.tiempoLectura = 0
@@ -124,7 +124,7 @@ class VectorEstado:
         for i in self.clientes:
             if i.horaFin == self.reloj:
                 i.estado = EnumEstadoCliente.RETIRADO.value
-                self.tiempo_acumulado_lectura += i.horaFin - i.horaInicio
+                self.tiempo_acumulado_lectura += round(i.horaFin - i.horaInicio, 3)
                 self.contadorClienteLeido += 1
                 self.mesasDispL += 1
                 i.horaFin = 0

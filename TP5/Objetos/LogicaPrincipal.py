@@ -116,7 +116,8 @@ class LogicaPrincipal:
         valorUniforme = self.calcularUniforme(rndLlegada, self.limInfLlegada, self.limSupLlegada)
         self.veNuevo.rndLlegada = rndLlegada
         self.veNuevo.tiempoLlegada = valorUniforme
-        self.veNuevo.horaLlegada = self.veNuevo.reloj + valorUniforme
+        self.veNuevo.horaLlegada = round(self.veNuevo.reloj + valorUniforme, 2)
+        # 0.659 * 100 = 65.9 -> 65 / 100 = 0.65
 
         if self.veNuevo.colaF == 0 and self.veNuevo.estadoF == EnumEstadoFernando.LIBRE.value and self.veNuevo.mesasDispL > 0:
             self.veNuevo.llegadaSinColaFernando()
@@ -146,8 +147,8 @@ class LogicaPrincipal:
         self.veNuevo.cantPagLectura = self.calcularUniforme(self.veNuevo.rndLectura, self.limitesCantPaginas[0], self.limitesCantPaginas[1])
         #todo implementar calculo tiempo lectura Euler, no implemente esto en VE porque no se como quedara con el euler implementado
         self.veNuevo.k = self.calcular_k()
-        self.veNuevo.tiempoLectura = self.ejecutar_simulacion_euler_dy_dx_k_sobre_5(self.veNuevo.k, self.step, self.veNuevo.cantPagLectura, self.ws1)
-        self.veNuevo.horaLectura = self.veNuevo.tiempoLectura + self.veNuevo.reloj
+        self.veNuevo.tiempoLectura = round(self.ejecutar_simulacion_euler_dy_dx_k_sobre_5(self.veNuevo.k, self.step, self.veNuevo.cantPagLectura, self.ws1), 3)
+        self.veNuevo.horaLectura = round(self.veNuevo.reloj + self.veNuevo.tiempoLectura, 3)
 
         # Cambio estado cliente
         self.veNuevo.tocoLeer()
@@ -162,7 +163,7 @@ class LogicaPrincipal:
     #todo: +1 clientes que leyeron
     def eventoFinLectura(self):
         self.veNuevo.termina_de_leer()
-        self.veNuevo.tlp = self.veNuevo.tiempo_acumulado_lectura / self.veNuevo.contadorClienteLeido
+        self.veNuevo.tlp = round(self.veNuevo.tiempo_acumulado_lectura / self.veNuevo.contadorClienteLeido, 3)
         #todo: agregar la columna fin de lectura en la comparacion de los tiempos para proximo evento
 
     def calcular_k(self):
@@ -194,4 +195,4 @@ class LogicaPrincipal:
             sheet.append(fila_previa)
 
 
-        return round(fila_previa[0] * 10, 2)
+        return fila_previa[0] * 10
