@@ -252,7 +252,12 @@ class CafetinApp:
             last_row = len(self.logica.cadenaTabla) - 1
             sheet.highlight_cells(row=last_row, bg="#ffff99")  # Amarillo claro
 
-        punto1 = self.calculo_primer_punto()
+        # punto1 = self.calculo_primer_punto()
+        try:
+            punto1 = self.logica.veUltimo.porcentaje_retirados * 100
+        except:
+            punto1 = 0
+
         # Actualizar las etiquetas del footer
         try:
             punto2 = round((self.logica.veUltimo.tiempo_acumulado_lectura / self.logica.veUltimo.contadorClienteLeido),
@@ -270,24 +275,7 @@ class CafetinApp:
         self.tabla.set_datos([])
         self.contadorClientes = 0
 
-    def calculo_primer_punto(self):
-        try:
-            for i in range(len(self.logica.veUltimo.clientes)):
-                if self.logica.veUltimo.clientes[i].estado in (EnumEstadoCliente.EN_ATENCION.value, EnumEstadoCliente.SENTADO_MESA.value):
-                    self.contadorClientes += 1
-            self.contadorClientes += self.logica.veUltimo.contadorClienteLeido
-            print(self.contadorClientes)
-            print(self.logica.veUltimo.contadorClienteRetirado)
-            total = round(((self.logica.veUltimo.contadorClienteRetirado / (
-                    self.logica.veUltimo.contadorClienteRetirado + self.logica.clienteAtendido)) * 100), 2)
-            self.clientesCalculo.config(text="Contador de clientes atendidos: " + str(self.contadorClientes))
-        except:
-            total = 0
-        return total
 
-
-    def calculo_primer_punto(self):
-        pass
 
 
 # --- Ejecutar aplicación ---

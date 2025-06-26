@@ -30,10 +30,11 @@ class LogicaPrincipal:
         self.veUltimo = VectorEstado()
         self.veNuevo = VectorEstado()
         self.cadenaTabla = []
-        # self.clienteAtendido = 0
 
 
         self.tiempoSimulacion = 0
+        self.porcentaje_retirados_inicial = 0
+        
         self.cantIteraciones = 0
         self.tiempo_acum_lectura = 0
 
@@ -63,10 +64,10 @@ class LogicaPrincipal:
                 self.eventoFinLectura()
 
             try:
-                self.veNuevo.porcentaje_retirados = self.veNuevo.contadorClienteRetirado / (
-                            self.veNuevo.contadorClienteRetirado + self.veNuevo.contadorClienteAtendido)
+                self.veNuevo.porcentaje_retirados = round(self.veNuevo.contadorClienteRetirado / (
+                            self.veNuevo.contadorClienteRetirado + self.veNuevo.contadorClienteAtendido), 2)
             except:
-                self.veNuevo.porcentaje_retirados = 0
+                self.veNuevo.porcentaje_retirados = self.porcentaje_retirados_inicial
 
             self.tiempoSimulacion = self.veNuevo.definirNuevoTiempoSimulacion()
             print("tiempo despues de procesar evento: " + str(self.tiempoSimulacion))
