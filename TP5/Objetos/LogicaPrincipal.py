@@ -77,7 +77,7 @@ class LogicaPrincipal:
             self.rellenarTabla()
 
         self.cadenaTabla.append(self.veUltimo.formatoFila())
-
+        self.wb.save("euler.xlsx")
 
     def calcularUniforme(self, rndLlegada, limInf, limSup):
         return round(limInf + (rndLlegada * (limSup - limInf)), 2)
@@ -193,5 +193,5 @@ class LogicaPrincipal:
             fila_previa = [xm, ym, f, xm_mas_u, ym_mas_u]
             sheet.append(fila_previa)
 
-        self.wb.save("euler.xlsx")
+
         return round(fila_previa[0] * 10, 2)
