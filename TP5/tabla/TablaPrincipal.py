@@ -61,12 +61,9 @@ class TablaPrincipal(tk.Frame):
         self.sheet.headers(encabezados)
 
     def set_datos(self, data):
-        if not data:
-            # Limpiar la tabla de manera segura
-            current_headers = self.sheet.headers()
-            self.sheet.set_sheet_data([["" for _ in current_headers]])
-            self.sheet.set_sheet_data([])
-            return
+        headers_fijos = self.sheet.headers()[:21]
+        self.sheet.headers(headers_fijos)
+        self.sheet.set_sheet_data([])
 
         # Encontrar el número máximo de columnas en los datos
         max_columns = max(len(row) for row in data) if data else 0
