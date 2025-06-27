@@ -7,10 +7,16 @@ class TablaPrincipal(tk.Frame):
         super().__init__(parent)
         self.pack(fill="both", expand=True, padx=10, pady=10)
 
+        # Configurar estilo para la última fila
         self.sheet = tksheet.Sheet(self,
-                                   show_x_scrollbar=True,
-                                   show_y_scrollbar=True)
-
+                                 show_x_scrollbar=True,
+                                 show_y_scrollbar=True)
+        
+        # Definir el estilo para la última fila
+        self.sheet.change_theme("light blue")
+        self.sheet.highlight_columns(columns=[], bg="#f0f0f0", fg="black")
+        self.sheet.highlight_rows(rows=[], bg="#f0f0f0", fg="black")
+        
         self.sheet.enable_bindings(
             "single_select",  # seleccionar una celda
             "row_select",
@@ -68,10 +74,10 @@ class TablaPrincipal(tk.Frame):
         # Si no hay suficientes columnas para los clientes, agregar las que faltan
         if max_columns > len(self.sheet.headers()):
             # Calcular cuántos clientes nuevos hay
-            num_clientes = (max_columns - 18) // 3  # 18 columnas fijas iniciales
+            num_clientes = (max_columns - 21) // 3  # 18 columnas fijas iniciales
 
             # Agregar columnas para los clientes que faltan
-            for i in range(len(self.sheet.headers()) - 18, num_clientes + 1):  # +1 porque i empieza en 1
+            for i in range(len(self.sheet.headers()) - 21, num_clientes + 1):  # +1 porque i empieza en 1
                 if i > 0:  # Evitar cliente 0
                     self.add_cliente_columna(f"Cliente {i}", ["Estado", "Inicio", "Fin Lectura"])
 
@@ -86,7 +92,10 @@ class TablaPrincipal(tk.Frame):
 
         # Configurar los datos
         self.sheet.set_sheet_data(data)
-
+        
+        # Resaltar la última fila
+        self.resaltar_ultima_fila()
+        
         # Asegurarse de que la tabla se redibuje correctamente
         self.sheet.refresh()
 
@@ -142,3 +151,19 @@ class TablaPrincipal(tk.Frame):
         # Retornar los índices de las subcolumnas para referencia futura
         return {f"{nombre_principal} - {subcol}": indice_inicio + i
                 for i, subcol in enumerate(subcolumnas)}
+
+    def resaltar_ultima_fila(self):
+        """Resalta solo la última fila de la tabla"""
+        data = self.sheet.get_sheet_data()
+        if not data:
+            return
+
+        ultima_fila = len(data) - 1
+
+        # Quitar resaltado de todas las filas excepto la última
+        filas_a_limpiar = list(range(len(data)))
+        filas_a_limpiar.remove(ultima_fila)
+        self.sheet.highlight_rows(rows=filas_a_limpiar, bg="#f0f0f0", fg="black")
+
+        # Resaltar la última fila
+        self.sheet.highlight_rows(rows=[ultima_fila], bg="#ffeb3b", fg="black")

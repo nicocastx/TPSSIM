@@ -246,12 +246,6 @@ class CafetinApp:
         print(self.logica.cadenaTabla)
         self.tabla.set_datos(self.logica.cadenaTabla)
 
-        # Resaltar la última fila
-        if self.logica.cadenaTabla:
-            sheet = self.tabla.get_sheet()
-            last_row = len(self.logica.cadenaTabla) - 1
-            sheet.highlight_cells(row=last_row, bg="#ffff99")  # Amarillo claro
-
         # punto1 = self.calculo_primer_punto()
         try:
             punto1 = self.logica.veUltimo.porcentaje_retirados * 100
